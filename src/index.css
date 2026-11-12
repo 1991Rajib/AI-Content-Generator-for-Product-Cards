@@ -3,8 +3,8 @@
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    background-color: #0c0d10;
-    color: #f3f4f6;
+    background-color: #FFF9F5;
+    color: #2D1A0E;
   }
   
   h1, h2, h3, .font-display {
@@ -12,33 +12,37 @@
   }
 }
 
-/* Warm Obsidian & Burnt Amber Figma-inspired Palette */
+/* Figma Combination 21: Fresh Peach Color System */
+/* Core tones: #FFF8F3, #FFEAD9, #FFD3AC, #FFA14D, #FF881E, #ED6F00, #2D1A0E */
+
+.bg-fresh-peach {
+  background-color: #FFF8F3;
+}
+
 .glass-panel {
-  background: rgba(18, 20, 26, 0.82);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid #F5DFCE;
+  box-shadow: 0 10px 30px -5px rgba(237, 111, 0, 0.06);
 }
 
 .glass-card {
-  background: linear-gradient(145deg, rgba(24, 27, 34, 0.9) 0%, rgba(14, 16, 21, 0.95) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: #FFFFFF;
+  border: 1px solid #F3DAC8;
+  box-shadow: 0 12px 35px -6px rgba(237, 111, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
 }
 
-.glow-amber {
-  box-shadow: 0 0 35px -5px rgba(245, 158, 11, 0.22);
+.glow-peach {
+  box-shadow: 0 0 35px -5px rgba(255, 136, 30, 0.25);
 }
 
-.glow-terracotta {
-  box-shadow: 0 0 35px -5px rgba(234, 88, 12, 0.25);
-}
-
-/* Sophisticated warm ambient background mesh */
-.bg-mesh-warm {
+/* Fresh Airy Ambient Mesh */
+.bg-mesh-peach {
   background-image: 
-    radial-gradient(at 10% 10%, rgba(245, 158, 11, 0.09) 0px, transparent 45%),
-    radial-gradient(at 90% 15%, rgba(234, 88, 12, 0.07) 0px, transparent 50%),
-    radial-gradient(at 50% 90%, rgba(217, 119, 6, 0.05) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(255, 211, 172, 0.45) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(255, 161, 77, 0.25) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(255, 236, 217, 0.5) 0px, transparent 55%),
+    radial-gradient(at 100% 100%, rgba(255, 218, 180, 0.3) 0px, transparent 50%);
+  background-color: #FFF9F5;
 }

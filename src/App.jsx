@@ -106,7 +106,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0c0d10] text-zinc-100 bg-mesh-warm selection:bg-amber-500 selection:text-black flex flex-col justify-between">
+    <div className="min-h-screen bg-mesh-peach text-[#2D1A0E] selection:bg-[#FF881E] selection:text-white flex flex-col justify-between">
       
       {/* Top Header */}
       <div>
@@ -121,14 +121,14 @@ export default function App() {
           
           {/* Hero Banner */}
           <div className="mb-8 text-center sm:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold mb-3">
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFEAD9] border border-[#FFD3AC] text-[#BE5900] text-xs font-bold mb-3 shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#ED6F00]" />
               <span>Next-Gen E-Commerce Card Studio</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight font-display">
-              Turn Product Concepts into <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-300 to-amber-200">High-Impact Cards</span>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#2D1A0E] tracking-tight font-display">
+              Turn Product Concepts into <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ED6F00] via-[#FF881E] to-[#FFA14D]">High-Impact Cards</span>
             </h1>
-            <p className="text-zinc-400 text-sm sm:text-base mt-2 max-w-3xl leading-relaxed">
+            <p className="text-[#664C36] text-sm sm:text-base mt-2 max-w-3xl leading-relaxed font-normal">
               Generate optimized titles, persuasive product copy, and high-ranking SEO tags tailored to your exact product name and category using Google Gemini AI.
             </p>
           </div>
@@ -171,16 +171,16 @@ export default function App() {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-900 bg-[#0e1014]/90 py-6 mt-12 text-center text-xs text-zinc-500">
+      <footer className="border-t border-[#F3DAC8] bg-[#FFFBF8] py-6 mt-12 text-center text-xs text-[#785642]">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p>© 2026 CardCraft AI · Developed by Rajib</p>
+          <p className="font-medium">© 2026 CardCraft AI · Developed by Rajib</p>
           <div className="flex items-center gap-4">
-            <span className="text-zinc-400 flex items-center gap-1">
-              <Zap className="w-3 h-3 text-amber-400" />
+            <span className="text-[#5C3E28] font-semibold flex items-center gap-1">
+              <Zap className="w-3 h-3 text-[#ED6F00]" />
               <span>Vercel Serverless Ready</span>
             </span>
             <span>·</span>
-            <span>Google Gemini REST API</span>
+            <span className="font-medium">Google Gemini REST API</span>
           </div>
         </div>
       </footer>

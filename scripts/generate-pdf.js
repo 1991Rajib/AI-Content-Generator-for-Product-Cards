@@ -12,13 +12,15 @@ const doc = new PDFDocument({
 const writeStream = fs.createWriteStream(outputPath);
 doc.pipe(writeStream);
 
-// Colors
-const PRIMARY = '#4F46E5';
-const TEXT_DARK = '#0F172A';
-const TEXT_MUTED = '#475569';
-const BORDER_COLOR = '#E2E8F0';
-const BG_LIGHT = '#F8FAFC';
-const ACCENT = '#0EA5E9';
+// Colors (Figma Combination 21: Fresh Peach System)
+const PRIMARY = '#ED6F00';
+const PRIMARY_HOVER = '#BE5900';
+const PEACH_BG = '#FFF9F5';
+const PEACH_TINT = '#FFEAD9';
+const TEXT_DARK = '#2D1A0E';
+const TEXT_MUTED = '#664C36';
+const BORDER_COLOR = '#F3DAC8';
+const BG_LIGHT = '#FFF9F5';
 
 // ================= PAGE 1 =================
 // Top Brand Line
