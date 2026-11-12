@@ -56,17 +56,17 @@ export default function ProductForm({ onGenerate, isLoading, error }) {
   };
 
   return (
-    <div className="glass-panel rounded-2xl p-6 sm:p-7 border border-[#F5DFCE] shadow-sm relative overflow-hidden bg-white/95">
-      {/* Decorative Fresh Peach ambient blur */}
-      <div className="absolute -top-16 -right-16 w-44 h-44 bg-[#FFD3AC]/30 rounded-full blur-3xl pointer-events-none"></div>
+    <div className="peach-panel rounded-2xl p-6 sm:p-7 relative overflow-hidden bg-white/95">
+      {/* Decorative Fresh Peach ambient glow */}
+      <div className="absolute -top-16 -right-16 w-48 h-48 bg-[#FFD3AC]/40 rounded-full blur-3xl pointer-events-none"></div>
 
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h2 className="text-lg font-bold text-[#2D1A0E] flex items-center gap-2 font-display">
-            <Wand2 className="w-5 h-5 text-[#ED6F00]" />
+          <h2 className="text-lg font-bold text-[#28160E] flex items-center gap-2 font-display">
+            <Wand2 className="w-5 h-5 text-[#E39A7B]" />
             Product Details Generator
           </h2>
-          <p className="text-xs text-[#785642] mt-0.5">
+          <p className="text-xs text-[#825F4C] mt-0.5">
             AI-driven copy & SEO tags tailored to your product
           </p>
         </div>
@@ -74,8 +74,8 @@ export default function ProductForm({ onGenerate, isLoading, error }) {
 
       {/* Preset Quick Fill Pills */}
       <div className="mb-6">
-        <div className="flex items-center gap-1.5 text-xs text-[#785642] mb-2 font-medium">
-          <Lightbulb className="w-3.5 h-3.5 text-[#ED6F00]" />
+        <div className="flex items-center gap-1.5 text-xs text-[#825F4C] mb-2 font-semibold">
+          <Lightbulb className="w-3.5 h-3.5 text-[#DBB06B]" />
           <span>Quick Inspiration Presets:</span>
         </div>
         <div className="flex flex-wrap gap-1.5">
@@ -84,10 +84,10 @@ export default function ProductForm({ onGenerate, isLoading, error }) {
               key={idx}
               type="button"
               onClick={() => handleApplyPreset(preset)}
-              className="text-xs px-2.5 py-1 rounded-lg bg-[#FFF5ED] hover:bg-[#FFEAD9] border border-[#F3DAC8] text-[#4A2E1B] hover:text-[#2D1A0E] transition-all text-left flex items-center gap-1.5 cursor-pointer shadow-2xs"
+              className="text-xs px-2.5 py-1 rounded-lg bg-[#FFD3AC]/25 hover:bg-[#FFB5AB]/35 border border-[#FFB5AB]/50 text-[#5C3A29] hover:text-[#28160E] transition-all text-left flex items-center gap-1.5 cursor-pointer shadow-2xs"
             >
-              <span className="font-medium">{preset.name}</span>
-              <span className="text-[10px] text-[#A67C52] font-mono">({preset.category})</span>
+              <span className="font-semibold">{preset.name}</span>
+              <span className="text-[10px] text-[#A3735B] font-mono">({preset.category})</span>
             </button>
           ))}
         </div>
@@ -96,8 +96,8 @@ export default function ProductForm({ onGenerate, isLoading, error }) {
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Product Name (Required) */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-[#4A2E1B] mb-1.5">
-            Product Name <span className="text-[#ED6F00]">*</span>
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#4A2C1D] mb-1.5">
+            Product Name <span className="text-[#E39A7B]">*</span>
           </label>
           <input
             type="text"
@@ -107,30 +107,30 @@ export default function ProductForm({ onGenerate, isLoading, error }) {
               if (validationError) setValidationError('');
             }}
             placeholder="e.g., Ultra-Thin Latex Condom 12-Pack"
-            className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#F3DAC8] text-[#2D1A0E] placeholder-[#A68875] text-sm focus:outline-none focus:ring-2 focus:ring-[#FF881E]/30 focus:border-[#ED6F00] transition-all shadow-2xs"
+            className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E39A7B]/30 text-[#28160E] placeholder-[#B5917D] text-sm focus:outline-none focus:ring-2 focus:ring-[#E39A7B]/25 focus:border-[#E39A7B] transition-all shadow-2xs"
             disabled={isLoading}
           />
         </div>
 
         {/* Category (Required) */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-[#4A2E1B] mb-1.5">
-            Category <span className="text-[#ED6F00]">*</span>
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#4A2C1D] mb-1.5">
+            Category <span className="text-[#E39A7B]">*</span>
           </label>
           <div className="relative">
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#F3DAC8] text-[#2D1A0E] text-sm focus:outline-none focus:ring-2 focus:ring-[#FF881E]/30 focus:border-[#ED6F00] transition-all appearance-none cursor-pointer shadow-2xs font-medium"
+              className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E39A7B]/30 text-[#28160E] text-sm focus:outline-none focus:ring-2 focus:ring-[#E39A7B]/25 focus:border-[#E39A7B] transition-all appearance-none cursor-pointer shadow-2xs font-semibold"
               disabled={isLoading}
             >
               {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat} className="bg-white text-[#2D1A0E]">
+                <option key={cat} value={cat} className="bg-white text-[#28160E]">
                   {cat}
                 </option>
               ))}
             </select>
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#A67C52]">
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#E39A7B]">
               <Layers className="w-4 h-4" />
             </div>
           </div>
@@ -138,7 +138,7 @@ export default function ProductForm({ onGenerate, isLoading, error }) {
 
         {/* Tone of Voice */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-[#4A2E1B] mb-1.5">
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#4A2C1D] mb-1.5">
             Copywriting Tone
           </label>
           <div className="grid grid-cols-2 gap-2">
@@ -150,12 +150,12 @@ export default function ProductForm({ onGenerate, isLoading, error }) {
                 disabled={isLoading}
                 className={`p-2.5 rounded-xl text-left border transition-all text-xs cursor-pointer ${
                   tone === t.id
-                    ? 'bg-[#FFEAD9] border-[#ED6F00] text-[#2D1A0E] shadow-xs'
-                    : 'bg-white border-[#F3DAC8] text-[#5C3E28] hover:text-[#2D1A0E] hover:border-[#FFBA7D]'
+                    ? 'bg-[#FFD3AC]/45 border-[#E39A7B] text-[#28160E] shadow-xs'
+                    : 'bg-white border-[#E39A7B]/25 text-[#6B4B3B] hover:text-[#28160E] hover:border-[#FFB5AB]'
                 }`}
               >
                 <div className="font-bold">{t.label}</div>
-                <div className="text-[11px] text-[#785642] mt-0.5 line-clamp-1">{t.desc}</div>
+                <div className="text-[11px] text-[#825F4C] mt-0.5 line-clamp-1">{t.desc}</div>
               </button>
             ))}
           </div>
@@ -163,16 +163,16 @@ export default function ProductForm({ onGenerate, isLoading, error }) {
 
         {/* Optional Key Highlights */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-[#4A2E1B] mb-1.5 flex items-center justify-between">
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#4A2C1D] mb-1.5 flex items-center justify-between">
             <span>Key Highlights (Optional)</span>
-            <span className="text-[11px] text-[#A67C52] font-normal">Specs, materials, features</span>
+            <span className="text-[11px] text-[#A3735B] font-normal">Specs, materials, features</span>
           </label>
           <input
             type="text"
             value={features}
             onChange={(e) => setFeatures(e.target.value)}
             placeholder="e.g., Ultra-sensitive, premium silicone lubricant, reservoir tip"
-            className="w-full px-4 py-2 rounded-xl bg-white border border-[#F3DAC8] text-[#2D1A0E] placeholder-[#A68875] text-xs focus:outline-none focus:ring-2 focus:ring-[#FF881E]/30 focus:border-[#ED6F00] transition-all shadow-2xs"
+            className="w-full px-4 py-2 rounded-xl bg-white border border-[#E39A7B]/30 text-[#28160E] placeholder-[#B5917D] text-xs focus:outline-none focus:ring-2 focus:ring-[#E39A7B]/25 focus:border-[#E39A7B] transition-all shadow-2xs"
             disabled={isLoading}
           />
         </div>
@@ -189,7 +189,7 @@ export default function ProductForm({ onGenerate, isLoading, error }) {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full mt-2 py-3 px-5 rounded-xl bg-gradient-to-r from-[#ED6F00] via-[#FF881E] to-[#FFA14D] hover:from-[#BE5900] hover:to-[#ED6F00] text-white font-bold text-sm shadow-md shadow-orange-500/25 flex items-center justify-center gap-2 transition-all transform active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+          className="w-full mt-2 py-3 px-5 rounded-xl btn-peach-gradient font-bold text-sm flex items-center justify-center gap-2 transition-all transform active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
         >
           {isLoading ? (
             <>

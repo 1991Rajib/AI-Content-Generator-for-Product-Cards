@@ -1,10 +1,20 @@
 @import "tailwindcss";
 
 @layer base {
+  :root {
+    --color-peach-light: #FFD3AC;
+    --color-peach-blush: #FFB5AB;
+    --color-peach-terracotta: #E39A7B;
+    --color-peach-ochre: #DBB06B;
+    --color-text-primary: #28160E;
+    --color-text-secondary: #5C3A29;
+    --color-text-muted: #825F4C;
+  }
+
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    background-color: #FFF9F5;
-    color: #2D1A0E;
+    background-color: #FFF8F2;
+    color: var(--color-text-primary);
   }
   
   h1, h2, h3, .font-display {
@@ -12,37 +22,38 @@
   }
 }
 
-/* Figma Combination 21: Fresh Peach Color System */
-/* Core tones: #FFF8F3, #FFEAD9, #FFD3AC, #FFA14D, #FF881E, #ED6F00, #2D1A0E */
+/* Figma Combination 21: Fresh Peach Exact Palette */
+/* #FFD3AC (Peach Light) | #FFB5AB (Blush Coral) | #E39A7B (Terracotta) | #DBB06B (Warm Ochre) */
 
-.bg-fresh-peach {
-  background-color: #FFF8F3;
+.bg-fresh-peach-canvas {
+  background-color: #FFF8F2;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(255, 211, 172, 0.45) 0px, transparent 45%),
+    radial-gradient(at 100% 5%, rgba(255, 181, 171, 0.35) 0px, transparent 45%),
+    radial-gradient(at 50% 95%, rgba(219, 176, 107, 0.25) 0px, transparent 50%);
 }
 
-.glass-panel {
-  background: rgba(255, 255, 255, 0.92);
+.peach-panel {
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid #F5DFCE;
-  box-shadow: 0 10px 30px -5px rgba(237, 111, 0, 0.06);
+  border: 1px solid rgba(227, 154, 123, 0.28);
+  box-shadow: 0 10px 30px -5px rgba(227, 154, 123, 0.12);
 }
 
-.glass-card {
+.peach-card {
   background: #FFFFFF;
-  border: 1px solid #F3DAC8;
-  box-shadow: 0 12px 35px -6px rgba(237, 111, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(227, 154, 123, 0.32);
+  box-shadow: 0 14px 35px -6px rgba(227, 154, 123, 0.14), 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
-.glow-peach {
-  box-shadow: 0 0 35px -5px rgba(255, 136, 30, 0.25);
+.btn-peach-gradient {
+  background: linear-gradient(135deg, #E39A7B 0%, #D48866 50%, #DBB06B 100%);
+  color: #FFFFFF;
+  box-shadow: 0 8px 20px -3px rgba(227, 154, 123, 0.38);
 }
 
-/* Fresh Airy Ambient Mesh */
-.bg-mesh-peach {
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(255, 211, 172, 0.45) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(255, 161, 77, 0.25) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(255, 236, 217, 0.5) 0px, transparent 55%),
-    radial-gradient(at 100% 100%, rgba(255, 218, 180, 0.3) 0px, transparent 50%);
-  background-color: #FFF9F5;
+.btn-peach-gradient:hover {
+  background: linear-gradient(135deg, #D48866 0%, #C77854 50%, #CA9D56 100%);
+  box-shadow: 0 10px 24px -3px rgba(227, 154, 123, 0.48);
 }

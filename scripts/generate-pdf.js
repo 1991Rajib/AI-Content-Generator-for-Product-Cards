@@ -12,15 +12,15 @@ const doc = new PDFDocument({
 const writeStream = fs.createWriteStream(outputPath);
 doc.pipe(writeStream);
 
-// Colors (Figma Combination 21: Fresh Peach System)
-const PRIMARY = '#ED6F00';
-const PRIMARY_HOVER = '#BE5900';
-const PEACH_BG = '#FFF9F5';
-const PEACH_TINT = '#FFEAD9';
-const TEXT_DARK = '#2D1A0E';
-const TEXT_MUTED = '#664C36';
-const BORDER_COLOR = '#F3DAC8';
-const BG_LIGHT = '#FFF9F5';
+// Exact Figma Combination 21: Fresh Peach Hex Codes
+const PEACH_LIGHT = '#FFD3AC';
+const PEACH_BLUSH = '#FFB5AB';
+const PRIMARY = '#E39A7B';
+const PEACH_OCHRE = '#DBB06B';
+const TEXT_DARK = '#28160E';
+const TEXT_MUTED = '#5C3A29';
+const BORDER_COLOR = '#E39A7B';
+const BG_LIGHT = '#FFF8F2';
 
 // ================= PAGE 1 =================
 // Top Brand Line
