@@ -6,6 +6,7 @@ import CardSkeleton from './components/CardSkeleton';
 import HistoryDrawer from './components/HistoryDrawer';
 import ApiKeyModal from './components/ApiKeyModal';
 import { generateProductDetails } from './services/aiService';
+import { getProductImage } from './utils/imageMapper';
 import { Sparkles, Layers, ShieldCheck, Zap, Info } from 'lucide-react';
 
 const INITIAL_CARD = {
@@ -78,9 +79,12 @@ export default function App() {
         customApiKey
       });
 
+      const dynamicImage = getProductImage(productName, category);
+
       const newCard = {
         id: `card-${Date.now()}`,
         ...result.data,
+        imageUrl: dynamicImage, // Dynamic image matching generated product
         timestamp: Date.now()
       };
 

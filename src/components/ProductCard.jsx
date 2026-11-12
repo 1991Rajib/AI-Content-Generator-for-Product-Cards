@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getProductImage, getAlternativeImages } from '../utils/imageMapper';
 import { 
   Star, 
   Copy, 
@@ -12,14 +13,19 @@ import {
   Code2, 
   Download,
   Flame,
-  ExternalLink
+  ExternalLink,
+  Image as ImageIcon,
+  RotateCw
 } from 'lucide-react';
 
 export default function ProductCard({ cardData, source, onSaveToHistory }) {
   const [copiedType, setCopiedType] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   if (!cardData) return null;
+
+  const defaultImg = getProductImage(cardData.title, cardData.category);
 
   const {
     title,
@@ -29,8 +35,15 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
     estimatedPrice = '$79.99',
     bulletPoints = [],
     badge = 'Featured Pick',
-    imageUrl = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80'
+    imageUrl = defaultImg
   } = cardData;
+
+  const allAlternatives = [imageUrl, ...getAlternativeImages(title, category).filter(img => img !== imageUrl)];
+  const displayImage = allAlternatives[currentImageIndex % allAlternatives.length] || defaultImg;
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % allAlternatives.length);
+  };
 
   const handleCopy = (text, type) => {
     navigator.clipboard.writeText(text);
@@ -91,7 +104,7 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
         {/* Card Header Media */}
         <div className="relative h-60 w-full overflow-hidden bg-slate-900">
           <img
-            src={imageUrl}
+            src={displayImage}
             alt={title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
@@ -104,13 +117,24 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
               <span>{badge}</span>
             </div>
 
-            <button
-              onClick={() => setIsLiked(!isLiked)}
-              className="w-8 h-8 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-rose-400 transition-colors shadow-md"
-              title="Add to wishlist"
-            >
-              <Heart className={`w-4 h-4 ${isLiked ? 'fill-rose-500 text-rose-500' : ''}`} />
-            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={handleNextImage}
+                className="px-2.5 py-1 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/60 flex items-center gap-1 text-[11px] font-medium text-slate-300 hover:text-white transition-colors shadow-md"
+                title="Change or cycle product photo"
+              >
+                <RotateCw className="w-3 h-3 text-indigo-400" />
+                <span>Change Photo</span>
+              </button>
+
+              <button
+                onClick={() => setIsLiked(!isLiked)}
+                className="w-8 h-8 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-rose-400 transition-colors shadow-md"
+                title="Add to wishlist"
+              >
+                <Heart className={`w-4 h-4 ${isLiked ? 'fill-rose-500 text-rose-500' : ''}`} />
+              </button>
+            </div>
           </div>
 
           {/* Category Tag overlay */}
