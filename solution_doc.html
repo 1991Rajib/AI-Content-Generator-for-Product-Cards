@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Solution Document - Assignment 2: AI Content Generator for Product Cards</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+      @bottom-right {
+        content: counter(page);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.55;
+      font-size: 10pt;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* Header Banner */
+    .header-banner {
+      border-bottom: 2px solid #4f46e5;
+      padding-bottom: 14px;
+      margin-bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .org-tag {
+      font-size: 8.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #4f46e5;
+      margin-bottom: 4px;
+    }
+
+    .doc-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20pt;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.2;
+    }
+
+    .doc-subtitle {
+      font-size: 11pt;
+      color: #64748b;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .meta-badge-group {
+      text-align: right;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 8pt;
+      font-weight: 600;
+      background: #f1f5f9;
+      color: #475569;
+      margin-bottom: 4px;
+    }
+
+    .badge-primary {
+      background: #eef2ff;
+      color: #4338ca;
+      border: 1px solid #c7d2fe;
+    }
+
+    /* Section Typography */
+    h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13pt;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    h2 .section-num {
+      color: #4f46e5;
+      font-size: 11pt;
+    }
+
+    h3 {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin-bottom: 8px;
+      color: #334155;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-left: 18px;
+      margin-bottom: 10px;
+      color: #334155;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    /* Cards & Containers */
+    .card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+    }
+
+    .card-highlight {
+      background: #faf5ff;
+      border: 1px solid #e9d5ff;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 14px 0;
+      font-size: 8.5pt;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+      text-align: left;
+      padding: 7px 10px;
+      border: 1px solid #cbd5e1;
+    }
+
+    td {
+      padding: 7px 10px;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    /* Code Blocks */
+    pre, code {
+      font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
+    }
+
+    code {
+      background: #f1f5f9;
+      padding: 1px 4px;
+      border-radius: 4px;
+      font-size: 8pt;
+      color: #4338ca;
+    }
+
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 7.5pt;
+      line-height: 1.45;
+      overflow-x: hidden;
+      margin-bottom: 10px;
+    }
+
+    /* Diagram Box */
+    .diagram-box {
+      background: #0f172a;
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 7pt;
+      line-height: 1.35;
+      margin: 10px 0;
+      border: 1px solid #1e293b;
+    }
+
+    /* Callout Note */
+    .callout {
+      border-left: 3.5px solid #4f46e5;
+      background: #eef2ff;
+      padding: 9px 12px;
+      border-radius: 0 6px 6px 0;
+      margin: 10px 0;
+      font-size: 8.5pt;
+      color: #312e81;
+    }
+
+    .footer-note {
+      margin-top: 25px;
+      padding-top: 10px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 8pt;
+      color: #94a3b8;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: EXECUTIVE SUMMARY & ARCHITECTURE -->
+  <div class="header-banner">
+    <div>
+      <div class="org-tag">Indus Net Technologies Assessment</div>
+      <h1 class="doc-title">AI Content Generator for Product Cards</h1>
+      <div class="doc-subtitle">Assignment 2 Technical Solution & Architecture Document</div>
+    </div>
+    <div class="meta-badge-group">
+      <span class="badge badge-primary">Vercel Serverless Ready</span><br>
+      <span class="badge">React 19 + Tailwind CSS</span><br>
+      <span class="badge">Google Gemini 1.5 Flash</span>
+    </div>
+  </div>
+
+  <h2><span class="section-num">01.</span> Executive Summary & Problem Statement</h2>
+  <p>
+    Modern e-commerce merchants spend substantial time writing compelling product titles, conversion-focused descriptions, and SEO keyword hashtags for their catalog. The objective of <strong>Assignment 2: AI Content Generator for Product Cards</strong> is to engineer a web application that takes minimal merchant inputs (Product Name and Category), leverages generative AI via a REST API, and renders the result as an interactive, styled product card.
+  </p>
+
+  <div class="card">
+    <h3 style="margin-top:0; color:#4338ca;">Target Requirements Matrix</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Requirement</th>
+          <th>Implementation Mechanism</th>
+          <th>Assessment Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Input Form</strong></td>
+          <td>Product Name, Category selector, 4 Copywriting Tones, and Quick Preset Chips</td>
+          <td>Fully Compliant</td>
+        </tr>
+        <tr>
+          <td><strong>"Generate Details" Trigger</strong></td>
+          <td>Asynchronous button with animated spinner, skeleton state & error boundaries</td>
+          <td>Fully Compliant</td>
+        </tr>
+        <tr>
+          <td><strong>AI Return Format</strong></td>
+          <td>Structured JSON: Title, persuasive description, and 5–8 targeted hashtag keywords</td>
+          <td>Fully Compliant</td>
+        </tr>
+        <tr>
+          <td><strong>Styled Product Card</strong></td>
+          <td>Modern e-commerce card with photography, rating, price, badges & one-click copy</td>
+          <td>Fully Compliant</td>
+        </tr>
+        <tr>
+          <td><strong>State Management</strong></td>
+          <td>Centralized React state + LocalStorage history persistence (last 10 cards)</td>
+          <td>Fully Compliant</td>
+        </tr>
+        <tr>
+          <td><strong>Deployment Security</strong></td>
+          <td>Vercel Serverless Function (<code>/api/generate</code>) preventing API key leaks</td>
+          <td>Fully Compliant</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2><span class="section-num">02.</span> System Architecture & Data Flow</h2>
+  <p>
+    To ensure professional enterprise security, this project employs a <strong>Serverless Proxy Pattern</strong> on Vercel rather than exposing API keys directly in client-side code.
+  </p>
+
+  <div class="diagram-box">
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                CLIENT (React 19 + Vite)                                │
+│  - User submits Product Name + Category + Tone                                         │
+│  - Triggers Loading Skeleton & optimistic UI updates                                   │
+│  - Renders interactive ProductCard with 1-click copy for Description, Tags & JSON      │
+└───────────────────────────────────────────┬────────────────────────────────────────────┘
+                                            │ POST /api/generate
+                                            ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                       VERCEL SERVERLESS FUNCTION (/api/generate.js)                    │
+│  - Reads process.env.GEMINI_API_KEY from secure Vercel environment variables           │
+│  - Validates input payload and injects JSON schema prompt guidelines                   │
+│  - Enforces responseMimeType: "application/json" for zero markdown parsing errors      │
+└───────────────────────────────────────────┬────────────────────────────────────────────┘
+                                            │ HTTPS REST Call
+                                            ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        GOOGLE GEMINI 1.5 FLASH REST API                                │
+│  - Generates SEO title (under 60 chars), persuasive description & keyword array        │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+  </div>
+
+  <div class="callout">
+    <strong>Security Best Practice:</strong> By routing AI calls through <code>/api/generate.js</code>, the Gemini API key is never bundled into client JavaScript. For evaluators running the Vite dev server locally without Vercel, the app includes an in-app API settings modal and an intelligent demo engine fallback.
+  </div>
+
+  <div class="footer-note">
+    <span>Indus Net Technologies Candidate Assessment · Assignment 2</span>
+    <span>Page 1 of 2</span>
+  </div>
+
+  <!-- PAGE 2: AI INTEGRATION, STATE MANAGEMENT & DEPLOYMENT -->
+  <div class="page-break"></div>
+
+  <div class="header-banner">
+    <div>
+      <div class="org-tag">Technical Specification</div>
+      <h1 class="doc-title">Implementation Details & Deployment</h1>
+    </div>
+    <div class="meta-badge-group">
+      <span class="badge badge-primary">Prompt Design & Schema</span><br>
+      <span class="badge">Vercel Deployment Guide</span>
+    </div>
+  </div>
+
+  <h2><span class="section-num">03.</span> AI REST Integration & Prompt Engineering</h2>
+  <p>
+    The backend uses the Google Gemini 1.5 Flash endpoint (<code>gemini-1.5-flash:generateContent</code>). To eliminate fragile string manipulation or markdown backtick parsing, the API is configured with strict JSON schema enforcement:
+  </p>
+
+  <pre>{
+  "title": "A captivating, benefit-driven product title (under 60 characters)",
+  "shortDescription": "A persuasive, punchy description highlighting key benefits (25-45 words)",
+  "tags": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5", "keyword6"],
+  "category": "Selected Category",
+  "estimatedPrice": "$79.99",
+  "bulletPoints": ["Feature 1", "Feature 2", "Feature 3"],
+  "badge": "Best Seller | Editor's Choice | Eco-Friendly"
+}</pre>
+
+  <h2><span class="section-num">04.</span> State Management & Component Architecture</h2>
+  <p>
+    The application follows a clean unidirectional data flow without unnecessary third-party state bloat:
+  </p>
+  <ul>
+    <li><strong><code>App.jsx</code> (Root Coordinator)</strong>: Manages <code>activeCard</code>, <code>isLoading</code>, <code>error</code>, <code>history</code>, and <code>customApiKey</code>. Automatically hydrates recent cards from <code>localStorage</code>.</li>
+    <li><strong><code>ProductForm.jsx</code></strong>: Manages local input states, category choices, presets, and validation. Emits a clean payload to <code>onGenerate()</code>.</li>
+    <li><strong><code>ProductCard.jsx</code></strong>: Visual presenter displaying high-resolution category photography, star ratings (4.9/5), product badges, copy-to-clipboard helpers, and price suggestions.</li>
+    <li><strong><code>CardSkeleton.jsx</code></strong>: Pulse-animated skeleton matching the exact dimensions of the card to prevent layout shift (CLS).</li>
+    <li><strong><code>HistoryDrawer.jsx</code></strong>: Renders a history grid allowing users to switch between recently generated cards.</li>
+  </ul>
+
+  <h2><span class="section-num">05.</span> Vercel Deployment & Environment Configuration</h2>
+  <p>
+    The project is pre-configured with <code>vercel.json</code> for seamless zero-config deployment:
+  </p>
+
+  <div class="card card-highlight">
+    <h3 style="margin-top:0; color:#4338ca;">Deploying to Vercel in 3 Steps:</h3>
+    <ol>
+      <li><strong>Push to GitHub:</strong> Commit the workspace and push to your GitHub repository.</li>
+      <li><strong>Import into Vercel:</strong> In Vercel Dashboard, select <strong>"Add New Project"</strong> and choose the repository.</li>
+      <li><strong>Add Environment Variable:</strong> Under <strong>Environment Variables</strong>, enter:
+        <br>
+        <code>GEMINI_API_KEY = &lt;your-google-gemini-api-key&gt;</code>
+      </li>
+      <li><strong>Click Deploy:</strong> Vercel builds the React client and sets up the serverless <code>/api/generate</code> endpoint automatically.</li>
+    </ol>
+  </div>
+
+  <h2><span class="section-num">06.</span> Verification & Testing Scenarios</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Scenario</th>
+        <th>Expected Behavior</th>
+        <th>Verification Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Empty Product Name</td>
+        <td>Form displays a validation message; does not trigger API</td>
+        <td>Passed</td>
+      </tr>
+      <tr>
+        <td>Live Gemini API Key</td>
+        <td>Serverless function calls Gemini; returns tailored JSON</td>
+        <td>Passed</td>
+      </tr>
+      <tr>
+        <td>No API Key (Demo Mode)</td>
+        <td>Graceful fallback generates realistic card; zero app crashes</td>
+        <td>Passed</td>
+      </tr>
+      <tr>
+        <td>Clipboard Copy Actions</td>
+        <td>Copies description, hashtags, or raw JSON with visual checkmarks</td>
+        <td>Passed</td>
+      </tr>
+      <tr>
+        <td>Page Refresh</td>
+        <td>Active card & previous history persist via LocalStorage</td>
+        <td>Passed</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer-note">
+    <span>CardCraft AI Solution Document · Indus Net Technologies Assessment</span>
+    <span>Page 2 of 2</span>
+  </div>
+
+</body>
+</html>
+
