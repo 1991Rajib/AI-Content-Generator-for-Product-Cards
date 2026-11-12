@@ -123,7 +123,7 @@ export default function App() {
           <div className="mb-8 text-center sm:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold mb-3">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Assignment 2 · AI Content Generator for Product Cards</span>
+              <span>Next-Gen E-Commerce Card Studio</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight font-display">
               Turn Product Concepts into <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-300 to-amber-200">High-Impact Cards</span>
@@ -173,7 +173,7 @@ export default function App() {
       {/* Footer */}
       <footer className="border-t border-zinc-900 bg-[#0e1014]/90 py-6 mt-12 text-center text-xs text-zinc-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p>© 2026 Indus Net Technologies Assessment · Developed by Rajib</p>
+          <p>© 2026 CardCraft AI · Developed by Rajib</p>
           <div className="flex items-center gap-4">
             <span className="text-zinc-400 flex items-center gap-1">
               <Zap className="w-3 h-3 text-amber-400" />
