@@ -41,7 +41,7 @@ export default function App() {
       if (savedKey) setCustomApiKey(savedKey);
 
       const savedHistory = localStorage.getItem('cardcraft_history');
-      if (savedHistory) {
+      if (savedHistory !== null) {
         setHistory(JSON.parse(savedHistory));
       } else {
         setHistory([INITIAL_CARD]);
@@ -102,7 +102,7 @@ export default function App() {
 
   const handleClearHistory = () => {
     setHistory([]);
-    localStorage.removeItem('cardcraft_history');
+    localStorage.setItem('cardcraft_history', JSON.stringify([]));
   };
 
   return (
