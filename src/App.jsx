@@ -3,30 +3,15 @@ import Header from './components/Header';
 import ProductForm from './components/ProductForm';
 import ProductCard from './components/ProductCard';
 import CardSkeleton from './components/CardSkeleton';
+import EmptyCardState from './components/EmptyCardState';
 import HistoryDrawer from './components/HistoryDrawer';
 import ApiKeyModal from './components/ApiKeyModal';
 import { generateProductDetails } from './services/aiService';
 import { Sparkles, Zap } from 'lucide-react';
 
-const INITIAL_CARD = {
-  id: 'demo-init-1',
-  title: 'Ultra-Thin Latex Contraceptive Protection Pack',
-  shortDescription: 'Engineered for exceptional sensitivity and reliable barrier protection. Crafted from premium medical-grade natural latex with ultra-smooth silicone lubrication for an intimate, natural feel.',
-  tags: ['SexualWellness', 'UltraThin', 'NaturalLatex', 'DermatologistTested', 'DiscreetPackaging', 'ReliableProtection'],
-  category: 'Health & Fitness',
-  estimatedPrice: '$16.99',
-  bulletPoints: [
-    'Micro-thin profile for maximum sensitivity and natural warmth transfer',
-    'Electronically tested for safety, elasticity, and leak-proof resilience',
-    'Pre-lubricated with non-sticky, long-lasting premium silicone lubricant'
-  ],
-  badge: 'Top Rated',
-  imageUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
-  timestamp: Date.now()
-};
-
 export default function App() {
-  const [activeCard, setActiveCard] = useState(INITIAL_CARD);
+  // At initial load: no card or image is shown
+  const [activeCard, setActiveCard] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [generationSource, setGenerationSource] = useState('gemini-api');
@@ -44,7 +29,8 @@ export default function App() {
       if (savedHistory !== null) {
         setHistory(JSON.parse(savedHistory));
       } else {
-        setHistory([INITIAL_CARD]);
+        // Start completely clean with empty history
+        setHistory([]);
       }
     } catch (e) {
       console.warn('LocalStorage error:', e);
@@ -129,7 +115,7 @@ export default function App() {
               Turn Product Concepts into <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E39A7B] via-[#E08D6A] to-[#DBB06B]">High-Impact Cards</span>
             </h1>
             <p className="text-[#6B4B3B] text-sm sm:text-base mt-2 max-w-3xl leading-relaxed font-normal">
-              Generate optimized titles, persuasive product copy, and high-ranking SEO tags tailored to your exact product name and category using Google Gemini AI.
+              Enter any product name and category to generate optimized SEO titles, persuasive product descriptions, and targeted keyword tags powered by Google Gemini AI.
             </p>
           </div>
 
@@ -140,6 +126,7 @@ export default function App() {
             <div className="lg:col-span-5 space-y-4">
               <ProductForm
                 onGenerate={handleGenerate}
+                onReset={() => setActiveCard(null)}
                 isLoading={isLoading}
                 error={error}
               />
@@ -149,11 +136,13 @@ export default function App() {
             <div className="lg:col-span-7">
               {isLoading ? (
                 <CardSkeleton />
-              ) : (
+              ) : activeCard ? (
                 <ProductCard
                   cardData={activeCard}
                   source={generationSource}
                 />
+              ) : (
+                <EmptyCardState />
               )}
             </div>
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Wand2, Layers, RefreshCw, Lightbulb, AlertCircle } from 'lucide-react';
+import { Sparkles, Wand2, Layers, RefreshCw, Lightbulb, AlertCircle, RotateCcw } from 'lucide-react';
 
 const CATEGORIES = [
   'Electronics',
@@ -26,23 +26,37 @@ const TONES = [
   { id: 'playful', label: 'Playful & Engaging', desc: 'Charismatic, lively & warm' }
 ];
 
-export default function ProductForm({ onGenerate, isLoading, error }) {
+export default function ProductForm({ onGenerate, onReset, isLoading, error }) {
+  // All fields blank at initial
   const [productName, setProductName] = useState('');
-  const [category, setCategory] = useState('Health & Fitness');
+  const [category, setCategory] = useState('');
   const [tone, setTone] = useState('persuasive');
   const [features, setFeatures] = useState('');
   const [validationError, setValidationError] = useState('');
 
+  const handleResetForm = () => {
+    setProductName('');
+    setCategory('');
+    setTone('persuasive');
+    setFeatures('');
+    setValidationError('');
+    if (onReset) onReset();
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!productName.trim()) {
-      setValidationError('Please enter a product name to generate details.');
+      setValidationError('Please enter a product name.');
+      return;
+    }
+    if (!category.trim()) {
+      setValidationError('Please select a product category.');
       return;
     }
     setValidationError('');
     onGenerate({
       productName: productName.trim(),
-      category,
+      category: category.trim(),
       tone,
       features: features.trim()
     });
@@ -67,16 +81,29 @@ export default function ProductForm({ onGenerate, isLoading, error }) {
             Product Details Generator
           </h2>
           <p className="text-xs text-[#825F4C] mt-0.5">
-            AI-driven copy & SEO tags tailored to your product
+            Fill in the fields to generate a styled product card
           </p>
         </div>
+
+        {/* Reset / Blank Form Button */}
+        {(productName || category || features) && (
+          <button
+            type="button"
+            onClick={handleResetForm}
+            className="text-xs text-[#825F4C] hover:text-[#E39A7B] flex items-center gap-1 font-semibold px-2 py-1 rounded-lg border border-[#E39A7B]/20 hover:border-[#E39A7B] transition-all cursor-pointer"
+            title="Reset all fields to blank"
+          >
+            <RotateCcw className="w-3 h-3" />
+            <span>Reset</span>
+          </button>
+        )}
       </div>
 
       {/* Preset Quick Fill Pills */}
       <div className="mb-6">
         <div className="flex items-center gap-1.5 text-xs text-[#825F4C] mb-2 font-semibold">
           <Lightbulb className="w-3.5 h-3.5 text-[#DBB06B]" />
-          <span>Quick Inspiration Presets:</span>
+          <span>Quick Inspiration Presets (Optional):</span>
         </div>
         <div className="flex flex-wrap gap-1.5">
           {PRESETS.map((preset, idx) => (
@@ -106,7 +133,7 @@ export default function ProductForm({ onGenerate, isLoading, error }) {
               setProductName(e.target.value);
               if (validationError) setValidationError('');
             }}
-            placeholder="e.g., Ultra-Thin Latex Condom 12-Pack"
+            placeholder="Enter product name (e.g., Wireless Gaming Mouse)..."
             className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E39A7B]/30 text-[#28160E] placeholder-[#B5917D] text-sm focus:outline-none focus:ring-2 focus:ring-[#E39A7B]/25 focus:border-[#E39A7B] transition-all shadow-2xs"
             disabled={isLoading}
           />
@@ -120,10 +147,16 @@ export default function ProductForm({ onGenerate, isLoading, error }) {
           <div className="relative">
             <select
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => {
+                setCategory(e.target.value);
+                if (validationError) setValidationError('');
+              }}
               className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E39A7B]/30 text-[#28160E] text-sm focus:outline-none focus:ring-2 focus:ring-[#E39A7B]/25 focus:border-[#E39A7B] transition-all appearance-none cursor-pointer shadow-2xs font-semibold"
               disabled={isLoading}
             >
+              <option value="" disabled className="text-zinc-400">
+                Select a category...
+              </option>
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat} className="bg-white text-[#28160E]">
                   {cat}
@@ -165,13 +198,13 @@ export default function ProductForm({ onGenerate, isLoading, error }) {
         <div>
           <label className="block text-xs font-bold uppercase tracking-wider text-[#4A2C1D] mb-1.5 flex items-center justify-between">
             <span>Key Highlights (Optional)</span>
-            <span className="text-[11px] text-[#A3735B] font-normal">Specs, materials, features</span>
+            <span className="text-[11px] text-[#A3735B] font-normal">Features, specs, materials</span>
           </label>
           <input
             type="text"
             value={features}
             onChange={(e) => setFeatures(e.target.value)}
-            placeholder="e.g., Ultra-sensitive, premium silicone lubricant, reservoir tip"
+            placeholder="e.g., Ergonomic grip, 80hr battery, RGB backlighting"
             className="w-full px-4 py-2 rounded-xl bg-white border border-[#E39A7B]/30 text-[#28160E] placeholder-[#B5917D] text-xs focus:outline-none focus:ring-2 focus:ring-[#E39A7B]/25 focus:border-[#E39A7B] transition-all shadow-2xs"
             disabled={isLoading}
           />
