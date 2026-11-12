@@ -1,5 +1,6 @@
 import React from 'react';
-import { Sparkles, Key } from 'lucide-react';
+import Logo from './Logo';
+import { Key } from 'lucide-react';
 
 export default function Header({ onOpenKeyModal, hasCustomKey, generationSource }) {
   return (
@@ -8,9 +9,7 @@ export default function Header({ onOpenKeyModal, hasCustomKey, generationSource 
         
         {/* Brand & Studio Info */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#E39A7B] via-[#E08D6A] to-[#DBB06B] flex items-center justify-center shadow-md shadow-[#E39A7B]/25">
-            <Sparkles className="w-5 h-5 text-white font-bold" />
-          </div>
+          <Logo size={42} className="shrink-0 hover:scale-105 transition-transform" />
           <div>
             <div className="flex items-center gap-2">
               <span className="font-display font-bold text-lg text-[#28160E] tracking-tight">CardCraft AI</span>

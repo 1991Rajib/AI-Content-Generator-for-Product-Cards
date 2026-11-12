@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <!-- Brand Fresh Peach Gradients -->
+    <linearGradient id="peachPrimary" x1="6" y1="6" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E39A7B" />
+      <stop offset="55%" stop-color="#E08D6A" />
+      <stop offset="100%" stop-color="#DBB06B" />
+    </linearGradient>
+
+    <linearGradient id="peachBlush" x1="12" y1="12" x2="52" y2="52" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF8F2" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#FFD3AC" stop-opacity="0.85" />
+    </linearGradient>
+
+    <linearGradient id="terracottaAccent" x1="20" y1="16" x2="48" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E39A7B" />
+      <stop offset="100%" stop-color="#B85834" />
+    </linearGradient>
+
+    <filter id="cardShadow" x="0" y="4" width="64" height="60" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#80381E" flood-opacity="0.22" />
+    </filter>
+  </defs>
+
+  <!-- Background Base Card Canvas -->
+  <rect x="8" y="8" width="48" height="48" rx="14" fill="url(#peachPrimary)" filter="url(#cardShadow)" />
+
+  <!-- Subtle Inner Border Highlight -->
+  <rect x="9" y="9" width="46" height="46" rx="13" stroke="#FFF" stroke-opacity="0.25" stroke-width="1.5" />
+
+  <!-- Layer 1: Floating Offset Secondary Product Card (symbolizing structured card craft) -->
+  <rect x="15" y="15" width="34" height="34" rx="9" fill="url(#peachBlush)" />
+
+  <!-- Layer 2: The Craft Monogram ("C" + Generative Sparkle Core) -->
+  <!-- Stylized Geometric "C" Arch -->
+  <path d="M38 23.5 C35 21.5, 29 21.5, 25 25.5 C20.5 30, 20.5 35, 25 39 C29 42.5, 35 42.5, 38 40.5" 
+        stroke="url(#terracottaAccent)" 
+        stroke-width="4.2" 
+        stroke-linecap="round" />
+
+  <!-- Generative Beacon / Craft Core Spark (center-right focal point) -->
+  <path d="M36 27 C36 30 38.5 32 41 32 C38.5 32 36 34 36 37 C36 34 33.5 32 31 32 C33.5 32 36 30 36 27 Z" 
+        fill="#DBB06B" />
+
+  <!-- Mini accent beacon -->
+  <circle cx="26" cy="23" r="1.8" fill="#E39A7B" />
+</svg>
