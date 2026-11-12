@@ -1,51 +1,59 @@
-import React, { useState } from 'react';
-import { getProductImage, getAlternativeImages } from '../utils/imageMapper';
+import React, { useState, useEffect } from 'react';
+import { fetchImagesForProduct, getImmediateProductImage } from '../utils/imageService';
 import { 
-  Star, 
   Copy, 
   Check, 
-  Share2, 
   Tag, 
-  Sparkles, 
-  ShoppingCart, 
-  Heart, 
-  CheckCircle2, 
   Code2, 
-  Download,
-  Flame,
-  ExternalLink,
+  RotateCw,
   Image as ImageIcon,
-  RotateCw
+  Flame,
+  CheckCircle2
 } from 'lucide-react';
 
-export default function ProductCard({ cardData, source, onSaveToHistory }) {
+export default function ProductCard({ cardData }) {
   const [copiedType, setCopiedType] = useState(null);
-  const [isLiked, setIsLiked] = useState(false);
+  const [productImages, setProductImages] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isEditingUrl, setIsEditingUrl] = useState(false);
   const [customImageUrl, setCustomImageUrl] = useState('');
 
   if (!cardData) return null;
 
-  const defaultImg = getProductImage(cardData.title, cardData.category);
-
   const {
     title,
     shortDescription,
     tags = [],
     category,
-    estimatedPrice = '$79.99',
+    estimatedPrice = '$24.99',
     bulletPoints = [],
-    badge = 'Featured Pick',
-    imageUrl = defaultImg
+    badge = 'Top Rated'
   } = cardData;
 
-  const allAlternatives = [imageUrl, ...getAlternativeImages(title, category).filter(img => img !== imageUrl)];
-  const displayImage = customImageUrl || allAlternatives[currentImageIndex % allAlternatives.length] || defaultImg;
-
-  const handleNextImage = () => {
+  // Whenever the card's product title changes, search for images matching THIS product
+  useEffect(() => {
+    let isMounted = true;
+    const initialImg = getImmediateProductImage(title, category);
+    setProductImages([initialImg]);
+    setCurrentImageIndex(0);
     setCustomImageUrl('');
-    setCurrentImageIndex((prev) => (prev + 1) % allAlternatives.length);
+
+    fetchImagesForProduct(title, category).then((imgs) => {
+      if (isMounted && imgs && imgs.length > 0) {
+        setProductImages(imgs);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [title, category]);
+
+  const activeImage = customImageUrl || productImages[currentImageIndex % productImages.length] || getImmediateProductImage(title, category);
+
+  const handleCycleImage = () => {
+    setCustomImageUrl('');
+    setCurrentImageIndex((prev) => (prev + 1) % productImages.length);
   };
 
   const handleSetCustomUrl = (e) => {
@@ -68,7 +76,7 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
   };
 
   const handleCopyFullText = () => {
-    const text = `Product: ${title}\nCategory: ${category}\nPrice: ${estimatedPrice}\n\nDescription:\n${shortDescription}\n\nKey Highlights:\n${bulletPoints.map(b => `• ${b}`).join('\n')}\n\nKeywords: ${tags.map(t => `#${t}`).join(', ')}`;
+    const text = `Product: ${title}\nCategory: ${category}\nEstimated Price: ${estimatedPrice}\n\nDescription:\n${shortDescription}\n\nKey Highlights:\n${bulletPoints.map(b => `• ${b}`).join('\n')}\n\nKeywords: ${tags.map(t => `#${t}`).join(', ')}`;
     navigator.clipboard.writeText(text);
     setCopiedType('full');
     setTimeout(() => setCopiedType(null), 2000);
@@ -79,10 +87,10 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
       {/* Top Quick Actions Bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 px-1">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+          <span className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
             Generated Card Preview
           </span>
-          <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <span className="text-[11px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">
             Live Preview
           </span>
         </div>
@@ -90,86 +98,82 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
         <div className="flex items-center gap-1.5">
           <button
             onClick={handleCopyJson}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white text-xs border border-slate-700 transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white text-xs border border-zinc-800 transition-all cursor-pointer"
             title="Copy structured JSON data"
           >
-            {copiedType === 'json' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Code2 className="w-3.5 h-3.5 text-indigo-400" />}
+            {copiedType === 'json' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Code2 className="w-3.5 h-3.5 text-amber-400" />}
             <span>{copiedType === 'json' ? 'Copied JSON!' : 'Copy JSON'}</span>
           </button>
 
           <button
             onClick={handleCopyFullText}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white text-xs border border-slate-700 transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white text-xs border border-zinc-800 transition-all cursor-pointer"
             title="Copy full formatted card text"
           >
-            {copiedType === 'full' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-indigo-400" />}
-            <span>{copiedType === 'full' ? 'Copied All!' : 'Copy Card Text'}</span>
+            {copiedType === 'full' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-amber-400" />}
+            <span>{copiedType === 'full' ? 'Copied All!' : 'Copy Card Content'}</span>
           </button>
         </div>
       </div>
 
-      {/* Main E-Commerce Product Card */}
-      <div className="glass-card rounded-2xl overflow-hidden border border-slate-750 shadow-2xl hover:border-slate-700 transition-all duration-300 relative group">
+      {/* Main Product Card */}
+      <div className="glass-card rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl transition-all duration-300 relative group">
         
         {/* Card Header Media */}
-        <div className="relative h-60 w-full overflow-hidden bg-slate-900">
+        <div className="relative h-64 w-full overflow-hidden bg-zinc-950 flex items-center justify-center">
           <img
-            src={displayImage}
+            src={activeImage}
             alt={title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            onError={(e) => {
+              e.target.src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80';
+            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0e1015] via-transparent to-black/30"></div>
 
-          {/* Badge & Favorite */}
+          {/* Badges & Image Switcher */}
           <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/60 text-xs font-semibold text-amber-300 shadow-md">
-              <Flame className="w-3.5 h-3.5 text-amber-400" />
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-950/85 backdrop-blur-md border border-amber-500/30 text-xs font-semibold text-amber-400 shadow-md">
+              <Flame className="w-3.5 h-3.5 text-amber-500" />
               <span>{badge}</span>
             </div>
 
+            {/* Cycle Image Controls */}
             <div className="flex items-center gap-1.5">
               <button
-                onClick={handleNextImage}
-                className="px-2.5 py-1 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/60 flex items-center gap-1 text-[11px] font-medium text-slate-300 hover:text-white transition-colors shadow-md"
-                title="Change or cycle product photo"
+                onClick={handleCycleImage}
+                className="px-2.5 py-1 rounded-full bg-zinc-950/85 backdrop-blur-md border border-zinc-700/80 flex items-center gap-1.5 text-[11px] font-medium text-zinc-300 hover:text-white hover:border-amber-500/50 transition-colors shadow-md cursor-pointer"
+                title={`Cycle to next image for "${title}" (${(currentImageIndex % (productImages.length || 1)) + 1}/${productImages.length || 1})`}
               >
-                <RotateCw className="w-3 h-3 text-indigo-400" />
-                <span>Shuffle Photo</span>
+                <RotateCw className="w-3 h-3 text-amber-400" />
+                <span>Next Image ({productImages.length > 1 ? `${(currentImageIndex % productImages.length) + 1}/${productImages.length}` : '1'})</span>
               </button>
 
               <button
                 onClick={() => setIsEditingUrl(!isEditingUrl)}
-                className="px-2 py-1 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/60 flex items-center gap-1 text-[11px] font-medium text-slate-300 hover:text-white transition-colors shadow-md"
-                title="Paste a custom image link"
+                className="px-2.5 py-1 rounded-full bg-zinc-950/85 backdrop-blur-md border border-zinc-700/80 flex items-center gap-1 text-[11px] font-medium text-zinc-300 hover:text-white hover:border-amber-500/50 transition-colors shadow-md cursor-pointer"
+                title="Paste a custom image URL"
               >
-                <ImageIcon className="w-3 h-3 text-indigo-400" />
-                <span>URL</span>
-              </button>
-
-              <button
-                onClick={() => setIsLiked(!isLiked)}
-                className="w-8 h-8 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-rose-400 transition-colors shadow-md"
-                title="Add to wishlist"
-              >
-                <Heart className={`w-4 h-4 ${isLiked ? 'fill-rose-500 text-rose-500' : ''}`} />
+                <ImageIcon className="w-3 h-3 text-amber-400" />
+                <span>Custom URL</span>
               </button>
             </div>
           </div>
 
           {/* Optional Custom Image URL Bar */}
           {isEditingUrl && (
-            <div className="absolute inset-x-3 bottom-12 p-2 rounded-xl bg-slate-900/95 backdrop-blur-md border border-slate-700 z-10 animate-in fade-in">
+            <div className="absolute inset-x-3 bottom-12 p-2 rounded-xl bg-zinc-950/95 backdrop-blur-md border border-zinc-700 z-10 animate-in fade-in">
               <form onSubmit={handleSetCustomUrl} className="flex gap-2">
                 <input
                   type="url"
                   value={customImageUrl}
                   onChange={(e) => setCustomImageUrl(e.target.value)}
                   placeholder="Paste direct image URL (https://...)"
-                  className="flex-1 px-3 py-1.5 rounded-lg bg-slate-800 text-white text-xs border border-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="flex-1 px-3 py-1.5 rounded-lg bg-zinc-900 text-white text-xs border border-zinc-700 focus:outline-none focus:ring-1 focus:ring-amber-500"
                 />
                 <button
                   type="submit"
-                  className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold"
+                  className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs font-bold cursor-pointer"
                 >
                   Apply
                 </button>
@@ -179,7 +183,7 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
 
           {/* Category Tag overlay */}
           <div className="absolute bottom-3 left-4">
-            <span className="text-xs font-medium px-2.5 py-1 rounded-md bg-indigo-500/80 backdrop-blur-md text-white border border-indigo-400/30">
+            <span className="text-xs font-medium px-2.5 py-1 rounded-md bg-amber-500/90 text-zinc-950 font-bold backdrop-blur-md">
               {category}
             </span>
           </div>
@@ -188,40 +192,32 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
         {/* Card Content Body */}
         <div className="p-6 space-y-4">
           
-          {/* Rating and Reviews */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
-              <div className="flex items-center text-amber-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-amber-400" />
-                ))}
-              </div>
-              <span className="text-xs font-bold text-white">4.9</span>
-              <span className="text-xs text-slate-400">(320+ reviews)</span>
-            </div>
-            
-            <div className="text-xs text-emerald-400 font-medium flex items-center gap-1">
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              <span>In Stock</span>
-            </div>
-          </div>
-
-          {/* Product Title */}
-          <div>
-            <h3 className="text-xl font-bold text-white tracking-tight leading-snug font-display hover:text-indigo-300 transition-colors">
+          {/* Product Title (with Copy Title) */}
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="text-xl font-bold text-white tracking-tight leading-snug font-display hover:text-amber-400 transition-colors">
               {title}
             </h3>
+            <button
+              onClick={() => handleCopy(title, 'title')}
+              className="p-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all shrink-0 cursor-pointer"
+              title="Copy Title"
+            >
+              {copiedType === 'title' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+            </button>
           </div>
 
           {/* Product Short Description */}
-          <div className="relative p-3.5 rounded-xl bg-slate-900/70 border border-slate-800/80">
-            <p className="text-sm text-slate-300 leading-relaxed">
+          <div className="relative p-4 rounded-xl bg-zinc-900/80 border border-zinc-800">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-amber-500/90 mb-1.5">
+              Short Description:
+            </div>
+            <p className="text-sm text-zinc-300 leading-relaxed pr-6">
               {shortDescription}
             </p>
             <button
               onClick={() => handleCopy(shortDescription, 'desc')}
-              className="absolute top-2.5 right-2.5 p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
-              title="Copy description"
+              className="absolute top-3 right-3 p-1 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all cursor-pointer"
+              title="Copy Description"
             >
               {copiedType === 'desc' ? (
                 <Check className="w-3.5 h-3.5 text-emerald-400" />
@@ -234,13 +230,13 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
           {/* Bullet Points / Key Highlights */}
           {bulletPoints.length > 0 && (
             <div className="space-y-1.5 pt-1">
-              <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+              <div className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
                 Key Highlights:
               </div>
               <ul className="space-y-1">
                 {bulletPoints.map((point, index) => (
-                  <li key={index} className="text-xs text-slate-300 flex items-start gap-2">
-                    <span className="text-indigo-400 mt-0.5">•</span>
+                  <li key={index} className="text-xs text-zinc-300 flex items-start gap-2">
+                    <span className="text-amber-500 mt-0.5">•</span>
                     <span>{point}</span>
                   </li>
                 ))}
@@ -249,15 +245,15 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
           )}
 
           {/* Keywords / Tags */}
-          <div className="space-y-2 pt-2 border-t border-slate-800">
+          <div className="space-y-2 pt-2 border-t border-zinc-800/80">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <Tag className="w-3.5 h-3.5 text-indigo-400" />
+              <span className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                <Tag className="w-3.5 h-3.5 text-amber-500" />
                 <span>SEO Keywords & Tags ({tags.length})</span>
               </span>
               <button
                 onClick={() => handleCopy(tags.map(t => `#${t}`).join(' '), 'tags')}
-                className="text-[11px] text-indigo-400 hover:text-indigo-300 flex items-center gap-1"
+                className="text-[11px] text-amber-400 hover:text-amber-300 flex items-center gap-1 cursor-pointer"
               >
                 {copiedType === 'tags' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                 <span>{copiedType === 'tags' ? 'Copied Tags' : 'Copy All Tags'}</span>
@@ -269,10 +265,10 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
                 <span
                   key={idx}
                   onClick={() => handleCopy(`#${tag}`, `tag-${idx}`)}
-                  className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg bg-indigo-950/40 border border-indigo-800/40 text-indigo-300 hover:bg-indigo-900/50 hover:text-white cursor-pointer transition-all"
+                  className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-amber-400 hover:bg-zinc-850 hover:text-amber-300 hover:border-amber-500/40 cursor-pointer transition-all"
                   title="Click to copy hashtag"
                 >
-                  <span className="text-indigo-400/80">#</span>
+                  <span className="text-amber-500/70">#</span>
                   <span>{tag}</span>
                   {copiedType === `tag-${idx}` && <Check className="w-3 h-3 text-emerald-400 ml-0.5" />}
                 </span>
@@ -280,25 +276,17 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
             </div>
           </div>
 
-          {/* Card Footer: Price & CTA */}
-          <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
+          {/* Suggested Price Footer */}
+          <div className="pt-3 border-t border-zinc-800/80 flex items-center justify-between">
             <div>
-              <span className="text-[11px] text-slate-500 uppercase tracking-wider block">Suggested Price</span>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl font-bold text-white font-display">{estimatedPrice}</span>
-                <span className="text-xs text-slate-400 line-through">
-                  ${(parseFloat(estimatedPrice.replace(/[^0-9.]/g, '')) * 1.35 || 99.99).toFixed(2)}
-                </span>
-              </div>
+              <span className="text-[10px] text-zinc-500 uppercase tracking-wider block">Suggested Retail Price</span>
+              <span className="text-xl font-bold text-white font-display">{estimatedPrice}</span>
             </div>
-
-            <button
-              onClick={() => alert(`Added "${title}" to e-commerce showcase!`)}
-              className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-md shadow-indigo-600/30 flex items-center gap-2 transition-all cursor-pointer"
-            >
-              <ShoppingCart className="w-4 h-4" />
-              <span>Add to Store</span>
-            </button>
+            <div className="text-xs text-zinc-400">
+              <span className="px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300 text-[11px]">
+                {tags.length} SEO Tags Generated
+              </span>
+            </div>
           </div>
 
         </div>
@@ -306,4 +294,3 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
     </div>
   );
 }
-

@@ -6,23 +6,22 @@ import CardSkeleton from './components/CardSkeleton';
 import HistoryDrawer from './components/HistoryDrawer';
 import ApiKeyModal from './components/ApiKeyModal';
 import { generateProductDetails } from './services/aiService';
-import { getProductImage } from './utils/imageMapper';
-import { Sparkles, Layers, ShieldCheck, Zap, Info } from 'lucide-react';
+import { Sparkles, Zap } from 'lucide-react';
 
 const INITIAL_CARD = {
   id: 'demo-init-1',
-  title: 'Aura Studio Pro Wireless ANC Headphones',
-  shortDescription: 'Immerse yourself in precision-tuned acoustic clarity. Engineered with 40mm beryllium drivers, active hybrid noise cancellation, and ultra-soft memory foam cushions for all-day listening luxury.',
-  tags: ['WirelessAudio', 'ActiveNoiseCancelling', 'HighFidelity', 'Bluetooth5.3', 'ErgonomicFit', 'StudioGrade'],
-  category: 'Electronics',
-  estimatedPrice: '$189.00',
+  title: 'Ultra-Thin Latex Contraceptive Protection Pack',
+  shortDescription: 'Engineered for exceptional sensitivity and reliable barrier protection. Crafted from premium medical-grade natural latex with ultra-smooth silicone lubrication for an intimate, natural feel.',
+  tags: ['SexualWellness', 'UltraThin', 'NaturalLatex', 'DermatologistTested', 'DiscreetPackaging', 'ReliableProtection'],
+  category: 'Health & Fitness',
+  estimatedPrice: '$16.99',
   bulletPoints: [
-    'Up to 45 hours playtime with rapid USB-C fast charging',
-    'Customizable sound profiles via multi-platform companion app',
-    'Aircraft-grade lightweight aluminum frame with fold-flat hinge'
+    'Micro-thin profile for maximum sensitivity and natural warmth transfer',
+    'Electronically tested for safety, elasticity, and leak-proof resilience',
+    'Pre-lubricated with non-sticky, long-lasting premium silicone lubricant'
   ],
-  badge: 'Best Seller',
-  imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80',
+  badge: 'Top Rated',
+  imageUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
   timestamp: Date.now()
 };
 
@@ -79,12 +78,9 @@ export default function App() {
         customApiKey
       });
 
-      const dynamicImage = getProductImage(productName, category);
-
       const newCard = {
         id: `card-${Date.now()}`,
         ...result.data,
-        imageUrl: dynamicImage, // Dynamic image matching generated product
         timestamp: Date.now()
       };
 
@@ -110,7 +106,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 bg-mesh selection:bg-indigo-500 selection:text-white flex flex-col justify-between">
+    <div className="min-h-screen bg-[#0c0d10] text-zinc-100 bg-mesh-warm selection:bg-amber-500 selection:text-black flex flex-col justify-between">
       
       {/* Top Header */}
       <div>
@@ -125,15 +121,15 @@ export default function App() {
           
           {/* Hero Banner */}
           <div className="mb-8 text-center sm:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold mb-3">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Assignment 2 · AI Content Generator for Product Cards</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight font-display">
-              Turn Product Ideas into <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400">High-Converting Cards</span>
+              Turn Product Concepts into <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-300 to-amber-200">High-Impact Cards</span>
             </h1>
-            <p className="text-slate-400 text-sm sm:text-base mt-2 max-w-3xl leading-relaxed">
-              Enter any product name and category to generate optimized SEO titles, persuasive marketing copy, and high-impact keyword tags powered by Google Gemini AI.
+            <p className="text-zinc-400 text-sm sm:text-base mt-2 max-w-3xl leading-relaxed">
+              Generate optimized titles, persuasive product copy, and high-ranking SEO tags tailored to your exact product name and category using Google Gemini AI.
             </p>
           </div>
 
@@ -175,11 +171,11 @@ export default function App() {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 bg-slate-950/80 py-6 mt-12 text-center text-xs text-slate-500">
+      <footer className="border-t border-zinc-900 bg-[#0e1014]/90 py-6 mt-12 text-center text-xs text-zinc-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p>© 2026 Indus Net Technologies Assessment · Developed by Rajib</p>
           <div className="flex items-center gap-4">
-            <span className="text-slate-400 flex items-center gap-1">
+            <span className="text-zinc-400 flex items-center gap-1">
               <Zap className="w-3 h-3 text-amber-400" />
               <span>Vercel Serverless Ready</span>
             </span>
@@ -201,4 +197,3 @@ export default function App() {
     </div>
   );
 }
-

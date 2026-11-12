@@ -3,6 +3,8 @@
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #0c0d10;
+    color: #f3f4f6;
   }
   
   h1, h2, h3, .font-display {
@@ -10,34 +12,33 @@
   }
 }
 
-/* Glassmorphism and modern gradient animations */
+/* Warm Obsidian & Burnt Amber Figma-inspired Palette */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(18, 20, 26, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .glass-card {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.glow-indigo {
-  box-shadow: 0 0 35px -5px rgba(99, 102, 241, 0.25);
+  background: linear-gradient(145deg, rgba(24, 27, 34, 0.9) 0%, rgba(14, 16, 21, 0.95) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
 }
 
 .glow-amber {
-  box-shadow: 0 0 35px -5px rgba(245, 158, 11, 0.25);
+  box-shadow: 0 0 35px -5px rgba(245, 158, 11, 0.22);
 }
 
-/* Subtle animated background radial glow */
-.bg-mesh {
+.glow-terracotta {
+  box-shadow: 0 0 35px -5px rgba(234, 88, 12, 0.25);
+}
+
+/* Sophisticated warm ambient background mesh */
+.bg-mesh-warm {
   background-image: 
-    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.12) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(14, 165, 233, 0.08) 0px, transparent 50%);
+    radial-gradient(at 10% 10%, rgba(245, 158, 11, 0.09) 0px, transparent 45%),
+    radial-gradient(at 90% 15%, rgba(234, 88, 12, 0.07) 0px, transparent 50%),
+    radial-gradient(at 50% 90%, rgba(217, 119, 6, 0.05) 0px, transparent 50%);
 }
-
