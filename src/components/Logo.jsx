@@ -61,3 +61,4 @@ export default function Logo({ size = 40, className = '' }) {
     </svg>
   );
 }
+

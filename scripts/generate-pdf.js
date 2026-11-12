@@ -2,12 +2,12 @@ import PDFDocument from 'pdfkit';
 import fs from 'fs';
 import path from 'path';
 
-const outputPath = path.resolve('AI_Content_Generator_Solution_Document.pdf');
+const outputPath = path.resolve('CardCraft_AI_Solution_Document.pdf');
+const artifactDir = 'C:\\Users\\rajib\\.gemini\\antigravity\\brain\\4076da73-d49f-43a9-b5f5-666ad874ab85';
 
-// Create document with explicit page dimensions & ample bottom buffer
 const doc = new PDFDocument({
   size: 'A4', // 595.28 x 841.89 points
-  margins: { top: 35, bottom: 30, left: 45, right: 45 },
+  margins: { top: 36, bottom: 30, left: 45, right: 45 },
   bufferPages: true,
   autoFirstPage: false
 });
@@ -27,54 +27,59 @@ const COLOR_BORDER = '#F3DAC8';
 
 function drawHeading(num, title) {
   const y = doc.y;
-  doc.rect(45, y, 3, 12).fill(COLOR_TERRACOTTA);
-  doc.fontSize(10).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text(`${num}. ${title}`, 53, y);
+  doc.rect(45, y, 3.5, 12).fill(COLOR_TERRACOTTA);
+  doc.fontSize(10).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text(`${num}. ${title}`, 54, y);
   doc.y = y + 16;
 }
 
 // ==========================================
-// PAGE 1: EXECUTIVE ARCHITECTURE & MATRIX
+// PAGE 1: SOLUTION OVERVIEW & ARCHITECTURE
 // ==========================================
 doc.addPage();
 
 // 1. Top Brand Accent Line
-doc.rect(45, 35, 505, 3.5).fill(COLOR_TERRACOTTA);
+doc.rect(45, 36, 505, 3.5).fill(COLOR_TERRACOTTA);
 
 // 2. Header
-doc.y = 45;
-doc.fontSize(8).font('Helvetica-Bold').fillColor(COLOR_TERRACOTTA).text('TECHNICAL SOLUTION & ARCHITECTURE SPECIFICATION');
+doc.y = 46;
+doc.fontSize(8).font('Helvetica-Bold').fillColor(COLOR_TERRACOTTA).text('TECHNICAL ASSESSMENT SOLUTION DOCUMENT');
 doc.moveDown(0.2);
-doc.fontSize(18).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('CardCraft AI — Product Card Studio');
-doc.fontSize(8.5).font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('AI-Driven Content Generator with Fresh Peach Design System & Real-Time Media Engine');
+doc.fontSize(19).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('CardCraft AI — Product Card Studio');
+doc.fontSize(8.5).font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('AI-Powered Product Card Generator · Architecture & Technical Specification');
 
 // 3. Metadata Header Card
-doc.moveDown(0.4);
+doc.moveDown(0.5);
 const metaY = doc.y;
 doc.roundedRect(45, metaY, 505, 42, 5).fillAndStroke(COLOR_BG_PANEL, COLOR_BORDER);
 
 doc.fontSize(7.5).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK);
-doc.text('Brand System:', 55, metaY + 7);
-doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('Figma Combination 21 (Fresh Peach: #FFD3AC, #FFB5AB, #E39A7B, #DBB06B)', 130, metaY + 7);
+doc.text('Project Goal:', 55, metaY + 7);
+doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('Generate structured e-commerce product cards (title, copy, tags, photo) using AI', 125, metaY + 7);
 
 doc.font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('Tech Stack:', 55, metaY + 18);
-doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('React 19, Vite, Tailwind CSS, Vercel Serverless, Google Gemini REST API, Wikipedia Media API', 130, metaY + 18);
+doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('React 19, Vite, Tailwind CSS, Vercel Serverless, Google Gemini REST API, Wikipedia Media API', 125, metaY + 18);
 
-doc.font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('Architecture:', 55, metaY + 29);
-doc.font('Helvetica-Bold').fillColor(COLOR_TERRACOTTA).text('Zero-Leak Serverless Proxy · Dynamic Query-Specific Image Match · LocalStorage Sync', 130, metaY + 29);
+doc.font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('Key Features:', 55, metaY + 29);
+doc.font('Helvetica-Bold').fillColor(COLOR_TERRACOTTA).text('Serverless Security · Query-Specific Image Match · Fresh Peach UI · 100% Clean Start', 125, metaY + 29);
 
-doc.y = metaY + 48;
+doc.y = metaY + 50;
 
-// 4. Section 1: Overview
-drawHeading('01', 'Executive Overview & Problem Resolution');
+// 4. Section 1: Problem Statement & Solution Summary
+drawHeading('01', 'Problem Statement & Solution Summary');
 doc.fontSize(8).font('Helvetica').fillColor(COLOR_TEXT_MUTED).text(
-  'CardCraft AI is an automated studio web application that transforms basic product inputs into complete, styled product cards. When a merchant provides a product name and category, the app leverages Google Gemini AI via REST API to generate an optimized SEO title, benefit-focused marketing copy, targeted hashtag keywords, realistic pricing, and query-specific product photography.',
+  'The objective is to provide an intelligent web studio where merchants enter a product name and category, and the application generates conversion-focused card details (SEO title, persuasive description, and keywords/tags) using Google Gemini AI and renders them visually in an e-commerce product card.',
   { align: 'justify', lineGap: 1.4, width: 505 }
 );
 
-// 5. Capability Matrix Table
-doc.moveDown(0.4);
-doc.fontSize(7.5).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('Refactored System Capabilities:');
-doc.moveDown(0.2);
+doc.moveDown(0.3);
+doc.fontSize(8).font('Helvetica').fillColor(COLOR_TEXT_MUTED).text(
+  'CardCraft AI addresses this by providing a clean, accessible interface connected to Google Gemini via a secure Vercel Serverless route. It returns structured JSON data and pairs it with real-time exact-match photography, rendering a production-quality e-commerce card with 1-click clipboard tools.',
+  { align: 'justify', lineGap: 1.4, width: 505 }
+);
+
+// 5. Section 2: Requirements & Deliverables Checklist
+doc.moveDown(0.5);
+drawHeading('02', 'Requirements & Deliverables Checklist');
 
 const tableStartY = doc.y;
 const colPositions = [45, 175, 475];
@@ -82,18 +87,17 @@ const colPositions = [45, 175, 475];
 // Table Header
 doc.rect(45, tableStartY, 505, 15).fill('#FFEAD9');
 doc.fontSize(7).font('Helvetica-Bold').fillColor(COLOR_TERRACOTTA);
-doc.text('MODULE', colPositions[0] + 6, tableStartY + 4);
-doc.text('IMPLEMENTED ARCHITECTURE', colPositions[1] + 6, tableStartY + 4);
+doc.text('REQUIREMENT', colPositions[0] + 6, tableStartY + 4);
+doc.text('IMPLEMENTED SOLUTION', colPositions[1] + 6, tableStartY + 4);
 doc.text('STATUS', colPositions[2] + 6, tableStartY + 4);
 
 const tableRows = [
-  ['Blank Initial State', 'Starts 100% clean; zero pre-filled images or demo data on load', 'Verified'],
-  ['Input Form & Reset', 'Product name, category dropdown, tone toggle & instant reset button', 'Verified'],
-  ['Real-Time Media Engine', 'Wikipedia Media Search API (90%+ exact match for any product query)', 'Verified'],
-  ['Current-Product Cycling', 'Cycle photos matching exclusively the active product title & category', 'Verified'],
-  ['Clutter-Free E-Commerce', 'Excised retail cart/wishlist bloat; focused strictly on copy & SEO tags', 'Verified'],
-  ['Figma Fresh Peach UI', '4-swatch harmony: #FFD3AC, #FFB5AB, #E39A7B, #DBB06B', 'Verified'],
-  ['Vercel Serverless /api', 'Protected process.env.GEMINI_API_KEY with zero client key exposure', 'Verified']
+  ['Form Input (Name + Category)', 'Clean form starting 100% blank; category selector, copywriting tone & reset', 'Fulfilled'],
+  ['Generate Details Button', 'Asynchronous trigger with animated spinner & skeleton loading state', 'Fulfilled'],
+  ['AI Title, Description & Tags', 'Google Gemini REST API returning type-safe structured JSON payload', 'Fulfilled'],
+  ['Styled Product Card', 'Figma Fresh Peach e-commerce card with photo, badges & 1-click copy helpers', 'Fulfilled'],
+  ['Simple State Management', 'Clean React hooks managing active card, loading, error, and localStorage sync', 'Fulfilled'],
+  ['API Security & Deployment', 'Vercel Serverless Function (/api/generate) preventing client API key leaks', 'Fulfilled']
 ];
 
 let rowY = tableStartY + 15;
@@ -110,103 +114,96 @@ tableRows.forEach((row, i) => {
 
 doc.y = rowY + 10;
 
-// 6. Section 2: Architecture & Data Flow
-drawHeading('02', 'System Architecture & Data Flow');
+// 6. Section 3: Clean Architecture Flow (Pure Vector Boxes & Direct Vector Connectors)
+drawHeading('03', 'Solution Architecture & Data Flow Pipeline');
 doc.fontSize(8).font('Helvetica').fillColor(COLOR_TEXT_MUTED).text(
-  'To safeguard AI credentials from client inspection, CardCraft AI uses a secure Vercel Serverless Proxy. The browser communicates with a dedicated backend route that securely handles the Google Gemini REST API:',
+  'To protect the Gemini API key from exposure in public JavaScript bundles, all generation requests route through a Vercel Serverless Function:',
   { align: 'justify', lineGap: 1.4, width: 505 }
 );
 
-doc.moveDown(0.3);
-const archBoxY = doc.y;
-doc.roundedRect(45, archBoxY, 505, 86, 5).fillAndStroke('#28160E', '#3D2216');
+doc.moveDown(0.4);
+const pipelineY = doc.y;
 
-doc.fontSize(6.5).font('Courier').fillColor('#FFD3AC');
-const diagramLines = [
-  '┌────────────────────────────────────────────────────────────────────────────┐',
-  '│  CLIENT BROWSER (React 19 + Vite + Tailwind CSS)                           │',
-  '│  - User submits Product Name + Category -> Shows CardSkeleton loader       │',
-  '│  - Dispatches parallel Wikipedia Media Search for exact product photos     │',
-  '│  - Renders ProductCard with 1-click copy helpers & image cycler            │',
-  '└────────────────────────────────────┬───────────────────────────────────────┘',
-  '                                     │ POST /api/generate',
-  '                                     ▼',
-  '┌────────────────────────────────────────────────────────────────────────────┐',
-  '│  VERCEL SERVERLESS FUNCTION (/api/generate.js)                             │',
-  '│  - Reads process.env.GEMINI_API_KEY from secure Vercel environment         │',
-  '│  - Enforces JSON Schema: title, shortDescription, tags, price, bulletPoints│',
-  '└────────────────────────────────────┬───────────────────────────────────────┘',
-  '                                     │ HTTPS REST Call',
-  '                                     ▼',
-  '┌────────────────────────────────────────────────────────────────────────────┐',
-  '│  GOOGLE GEMINI REST API (Model: gemini-flash-lite-latest / 3.5-flash)      │',
-  '└────────────────────────────────────────────────────────────────────────────┘'
-];
+// Block 1: Client
+doc.roundedRect(45, pipelineY, 145, 50, 5).fillAndStroke(COLOR_BG_PANEL, COLOR_BORDER);
+doc.fontSize(7.5).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('1. CLIENT (React 19)', 55, pipelineY + 8);
+doc.fontSize(6.5).font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('• Collects user inputs\n• Shows CardSkeleton\n• Fetches Wikipedia image', 55, pipelineY + 20);
 
-let dLineY = archBoxY + 5;
-diagramLines.forEach(l => {
-  doc.text(l, 52, dLineY);
-  dLineY += 7.8;
-});
+// Vector Connector 1 -> 2
+doc.fontSize(6.5).font('Helvetica-Bold').fillColor(COLOR_TERRACOTTA).text('POST /api', 190, pipelineY + 15, { width: 50, align: 'center' });
+doc.moveTo(195, pipelineY + 27).lineTo(233, pipelineY + 27).lineWidth(1.2).strokeColor(COLOR_TERRACOTTA).stroke();
+doc.polygon([233, pipelineY + 24], [238, pipelineY + 27], [233, pipelineY + 30]).fill(COLOR_TERRACOTTA);
+
+// Block 2: Serverless
+doc.roundedRect(240, pipelineY, 150, 50, 5).fillAndStroke('#FFEAD9', COLOR_BORDER);
+doc.fontSize(7.5).font('Helvetica-Bold').fillColor(COLOR_TERRACOTTA).text('2. VERCEL SERVERLESS', 250, pipelineY + 8);
+doc.fontSize(6.5).font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('• Reads GEMINI_API_KEY\n• Enforces JSON Schema\n• Validates input & tone', 250, pipelineY + 20);
+
+// Vector Connector 2 -> 3
+doc.fontSize(6.5).font('Helvetica-Bold').fillColor(COLOR_TERRACOTTA).text('HTTPS REST', 390, pipelineY + 15, { width: 50, align: 'center' });
+doc.moveTo(395, pipelineY + 27).lineTo(433, pipelineY + 27).lineWidth(1.2).strokeColor(COLOR_TERRACOTTA).stroke();
+doc.polygon([433, pipelineY + 24], [438, pipelineY + 27], [433, pipelineY + 30]).fill(COLOR_TERRACOTTA);
+
+// Block 3: Gemini API
+doc.roundedRect(440, pipelineY, 110, 50, 5).fillAndStroke(COLOR_BG_PANEL, COLOR_BORDER);
+doc.fontSize(7.5).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('3. GEMINI REST API', 448, pipelineY + 8);
+doc.fontSize(6.5).font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('• Model: 1.5/3.5 Flash\n• Returns Title, Copy\n• Returns SEO Tags', 448, pipelineY + 20);
+
+doc.y = pipelineY + 60;
 
 // ==========================================
-// PAGE 2: DESIGN SYSTEM, MEDIA & DEPLOYMENT
+// PAGE 2: MEDIA ENGINE, DESIGN & VERIFICATION
 // ==========================================
 doc.addPage();
 
 // Top Brand Line
-doc.rect(45, 35, 505, 3.5).fill(COLOR_TERRACOTTA);
+doc.rect(45, 36, 505, 3.5).fill(COLOR_TERRACOTTA);
 
-doc.y = 45;
-doc.fontSize(8).font('Helvetica-Bold').fillColor(COLOR_TERRACOTTA).text('DESIGN SYSTEM, MEDIA ENGINE & IMPLEMENTATION');
+doc.y = 46;
+doc.fontSize(8).font('Helvetica-Bold').fillColor(COLOR_TERRACOTTA).text('TECHNICAL ASSESSMENT SOLUTION DOCUMENT');
 doc.moveDown(0.2);
-doc.fontSize(16).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('Fresh Peach Palette, Media Architecture & Verification');
+doc.fontSize(16).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('Media Architecture, Design System & Setup Guide');
 doc.y = 78;
 
-// 03. Design System
-drawHeading('03', 'Figma Fresh Peach Design System (Combination 21)');
+// 04. Design System (Fixed Swatch Grid - Guaranteed Zero Overlap)
+drawHeading('04', 'Figma Fresh Peach Design System (Combination 21)');
 doc.fontSize(8).font('Helvetica').fillColor(COLOR_TEXT_MUTED).text(
-  'The visual styling implements the exact 4-swatch harmony from Figma Combination 21, establishing a warm, welcoming, and high-contrast editorial interface:',
+  'The visual styling implements Figma Combination 21 (Fresh Peach). Each color fulfills an intentional role in visual hierarchy and accessibility:',
   { lineGap: 1.4, width: 505 }
 );
 
 doc.moveDown(0.3);
 const swatchBoxY = doc.y;
-doc.roundedRect(45, swatchBoxY, 505, 50, 5).fillAndStroke(COLOR_BG_PANEL, '#FFD3AC');
+const swatchHeight = 62;
+doc.roundedRect(45, swatchBoxY, 505, swatchHeight, 5).fillAndStroke(COLOR_BG_PANEL, '#FFD3AC');
 
-// Swatch 1: #FFD3AC
-doc.rect(55, swatchBoxY + 6, 9, 9).fill('#FFD3AC');
-doc.fontSize(7).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('#FFD3AC (Soft Peach):', 68, swatchBoxY + 7);
-doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('Ambient canvas glow, description box tint, and badge backgrounds.', 170, swatchBoxY + 7);
+const swatches = [
+  { color: '#FFD3AC', label: '#FFD3AC (Soft Peach):', role: 'Ambient canvas glow, description box tint, and badge backgrounds.' },
+  { color: '#FFB5AB', label: '#FFB5AB (Blush Coral):', role: 'Delicate pill tag outlines, secondary active halos, and card rings.' },
+  { color: '#E39A7B', label: '#E39A7B (Terracotta):', role: 'Primary brand accent, "Generate Details" CTA, category tag, and icons.' },
+  { color: '#DBB06B', label: '#DBB06B (Warm Ochre):', role: 'Suggested price and SEO tag counter badges.' }
+];
 
-// Swatch 2: #FFB5AB
-doc.rect(55, swatchBoxY + 20, 9, 9).fill('#FFB5AB');
-doc.fontSize(7).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('#FFB5AB (Blush Coral):', 68, swatchBoxY + 21);
-doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('Delicate pill tag outlines, secondary active halos, and card rings.', 170, swatchBoxY + 21);
+swatches.forEach((swatch, idx) => {
+  const itemY = swatchBoxY + 5 + (idx * 14);
+  doc.rect(55, itemY + 1, 9, 9).fillAndStroke(swatch.color, '#C9A087');
+  doc.fontSize(7).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text(swatch.label, 70, itemY + 1.5);
+  doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text(swatch.role, 175, itemY + 1.5, { width: 365 });
+});
 
-// Swatch 3: #E39A7B
-doc.rect(55, swatchBoxY + 34, 9, 9).fill('#E39A7B');
-doc.fontSize(7).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('#E39A7B (Terracotta):', 68, swatchBoxY + 35);
-doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('Primary brand accent, "Generate Details" CTA, category tag, and icons.', 170, swatchBoxY + 35);
+doc.y = swatchBoxY + swatchHeight + 10;
 
-// Swatch 4: #DBB06B
-doc.rect(340, swatchBoxY + 34, 9, 9).fill('#DBB06B');
-doc.fontSize(7).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('#DBB06B (Ochre):', 353, swatchBoxY + 35);
-doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('Suggested price and SEO tag counter.', 415, swatchBoxY + 35);
-
-doc.y = swatchBoxY + 56;
-
-// 04. Real-Time Exact-Match Media Engine
-drawHeading('04', 'Real-Time Exact-Match Media Architecture');
+// 05. Real-Time Exact-Match Media Architecture
+drawHeading('05', 'Real-Time Exact-Match Media Architecture');
 doc.fontSize(8).font('Helvetica').fillColor(COLOR_TEXT_MUTED).text(
-  'To prevent generic or mismatched stock photos (such as showing gym dumbbells for intimate wellness products), CardCraft AI utilizes a specialized 2-tier media pipeline:',
+  'To prevent irrelevant stock photography (e.g. displaying gym dumbbells for intimate wellness products), CardCraft AI uses a specialized 2-tier media pipeline:',
   { lineGap: 1.4, width: 505 }
 );
 
 doc.moveDown(0.2);
 doc.fontSize(7.5).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('1. Live Wikipedia Media API Search:');
 doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text(
-  'Directly queries Wikipedia media endpoints using clean product keywords. Products such as condoms, contraceptives, mechanical keyboards, or standing desks immediately retrieve authentic photos of the actual items.',
+  'Directly queries Wikipedia media endpoints using clean product keywords. Specific products like condoms, mechanical keyboards, or standing desks immediately retrieve authentic photos of the actual items.',
   { lineGap: 1.3, width: 505 }
 );
 
@@ -219,8 +216,8 @@ doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text(
 
 doc.moveDown(0.3);
 
-// 05. Clean UI & State Management
-drawHeading('05', 'Clean E-Commerce Card & State Lifecycle');
+// 06. Clean E-Commerce Card & State Lifecycle
+drawHeading('06', 'Clean Card Lifecycle & LocalStorage Sync');
 doc.fontSize(8).font('Helvetica').fillColor(COLOR_TEXT_MUTED).text(
   'Irrelevant retail checkout artifacts ("Add to Cart", mock star counts, wishlist hearts, preset chips) were removed to keep the card generator clean and focused on content creation:',
   { lineGap: 1.4, width: 505 }
@@ -228,25 +225,28 @@ doc.fontSize(8).font('Helvetica').fillColor(COLOR_TEXT_MUTED).text(
 
 doc.moveDown(0.2);
 const stateBoxY = doc.y;
-doc.roundedRect(45, stateBoxY, 505, 52, 5).fillAndStroke('#FFFFFF', COLOR_BORDER);
+const stateBoxHeight = 52;
+doc.roundedRect(45, stateBoxY, 505, stateBoxHeight, 5).fillAndStroke('#FFFFFF', COLOR_BORDER);
 
-doc.fontSize(7).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK);
-doc.text('• Blank Initial State (EmptyCardState.jsx):', 55, stateBoxY + 6);
-doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('Zero pre-filled demo cards or images appear on initial page load.', 68, stateBoxY + 15);
+const stateItems = [
+  { title: '• Blank Initial State (EmptyCardState.jsx):', desc: 'Zero pre-filled demo cards or images appear on initial page load.' },
+  { title: '• Clean Form (ProductForm.jsx):', desc: 'All fields start blank with an optional instant "Reset" trigger.' },
+  { title: '• Persistent History Sync (HistoryDrawer.jsx):', desc: 'Clearing history explicitly stores [] in LocalStorage, preventing demo card re-injection.' }
+];
 
-doc.font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('• Clean Form (ProductForm.jsx):', 55, stateBoxY + 23);
-doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('All fields start blank with an optional instant "Reset" trigger.', 68, stateBoxY + 31);
+stateItems.forEach((item, idx) => {
+  const itemY = stateBoxY + 5 + (idx * 15);
+  doc.fontSize(7).font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text(item.title, 55, itemY);
+  doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text(item.desc, 255, itemY, { width: 285 });
+});
 
-doc.font('Helvetica-Bold').fillColor(COLOR_TEXT_DARK).text('• Persistent History Sync (HistoryDrawer.jsx):', 55, stateBoxY + 39);
-doc.font('Helvetica').fillColor(COLOR_TEXT_MUTED).text('Clearing history explicitly stores [] in LocalStorage, preventing demo card re-injection.', 68, stateBoxY + 47);
+doc.y = stateBoxY + stateBoxHeight + 10;
 
-doc.y = stateBoxY + 58;
-
-// 06. Deployment Verification
-drawHeading('06', 'Vercel Deployment & Verification');
+// 07. Evaluation & Run Guide
+drawHeading('07', 'Evaluation & Local Setup Instructions');
 doc.fontSize(8).font('Helvetica').fillColor(COLOR_TEXT_MUTED).text(
-  'CardCraft AI is pre-configured with vercel.json for zero-config deployment. In Vercel Project Settings, add GEMINI_API_KEY under Environment Variables and click Deploy. The serverless route /api/generate automatically proxies AI requests with 200 OK reliability.',
-  { align: 'justify', lineGap: 1.4, width: 505 }
+  '1. Local Run: Run "npm.cmd run dev" and open http://localhost:3000.\n2. Vercel Deployment: Import repository on Vercel and add GEMINI_API_KEY in Project Settings -> Environment Variables. The /api/generate serverless function deploys automatically.\n3. Evaluation Mode: The app includes an intelligent fallback engine so reviewers can test the UI, state flow, and card rendering immediately without configuring API keys.',
+  { lineGap: 2, width: 505 }
 );
 
 // ==========================================
@@ -256,9 +256,9 @@ const range = doc.bufferedPageRange();
 for (let i = range.start; i < range.start + range.count; i++) {
   doc.switchToPage(i);
   doc.fontSize(7.5).font('Helvetica').fillColor('#825F4C').text(
-    `CardCraft AI · Solution Architecture Specification · Page ${i + 1} of ${range.count}`,
+    `CardCraft AI · Technical Solution Architecture · Page ${i + 1} of ${range.count}`,
     45,
-    775,
+    790,
     { align: 'center', width: 505 }
   );
 }
@@ -266,5 +266,24 @@ for (let i = range.start; i < range.start + range.count; i++) {
 doc.end();
 
 writeStream.on('finish', () => {
-  console.log(`Pristine PDF successfully generated with ${range.count} pages at ${outputPath}`);
+  console.log(`Clean 2-page solution PDF created at ${outputPath}`);
+  console.log(`Total Pages: ${range.count}`);
+  
+  // Also copy to artifact directory
+  try {
+    const artTarget = path.join(artifactDir, 'CardCraft_AI_Solution_Document.pdf');
+    fs.copyFileSync(outputPath, artTarget);
+    console.log(`Copied cleanly to artifact directory: ${artTarget}`);
+  } catch (err) {
+    console.warn('Could not copy to artifact directory:', err.message);
+  }
+
+  // Also copy to AI_Content_Generator_Solution_Document.pdf if not locked
+  try {
+    const altTarget = path.resolve('AI_Content_Generator_Solution_Document.pdf');
+    fs.copyFileSync(outputPath, altTarget);
+    console.log(`Copied cleanly to ${altTarget}`);
+  } catch (err) {
+    console.warn(`Could not overwrite AI_Content_Generator_Solution_Document.pdf (currently locked by viewer): ${err.message}`);
+  }
 });

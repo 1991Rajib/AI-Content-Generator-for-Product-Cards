@@ -132,3 +132,4 @@ export function getImmediateProductImage(productName = '', category = '') {
   }
   return CURATED_FALLBACKS.default[0];
 }
+

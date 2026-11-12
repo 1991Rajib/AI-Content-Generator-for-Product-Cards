@@ -36,3 +36,9 @@ dist-ssr
 
 # Temporary / Scratch
 .system_generated
+
+# Solution PDF Documentation (Local evaluation only - do not commit)
+*.pdf
+AI_Content_Generator_Solution_Document.pdf
+CardCraft_AI_Solution_Document.pdf
+
