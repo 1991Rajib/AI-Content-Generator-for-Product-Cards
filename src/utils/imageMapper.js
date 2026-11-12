@@ -1,17 +1,40 @@
-// Intelligent dynamic image mapper based on category and product keywords
+// Intelligent dynamic image mapper based on product name and keywords
 
 const PRODUCT_IMAGE_COLLECTION = {
-  // Electronics & Gadgets
+  // Sexual Wellness, Contraception & Intimate Health
+  wellness: [
+    'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&w=800&q=80'
+  ],
+
+  // Medical, Pharmacy & Supplements
+  supplements: [
+    'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1550572017-edd951aa8f72?auto=format&fit=crop&w=800&q=80'
+  ],
+
+  // Audio & Acoustics
   headphones: [
     'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=800&q=80'
   ],
+
+  // Smartwatches & Jewelry
   watch: [
     'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=800&q=80'
   ],
+
+  jewelry: [
+    'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80'
+  ],
+
+  // Computing & Tech
   keyboard: [
     'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?auto=format&fit=crop&w=800&q=80'
@@ -33,7 +56,7 @@ const PRODUCT_IMAGE_COLLECTION = {
     'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=800&q=80'
   ],
 
-  // Fashion & Footwear
+  // Footwear & Apparel
   shoes: [
     'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80',
@@ -52,7 +75,7 @@ const PRODUCT_IMAGE_COLLECTION = {
     'https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=800&q=80'
   ],
 
-  // Home & Kitchen
+  // Furniture & Home
   chair: [
     'https://images.unsplash.com/photo-1580481077114-118f67e7eb17?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&w=800&q=80'
@@ -65,15 +88,15 @@ const PRODUCT_IMAGE_COLLECTION = {
     'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80'
   ],
+  bottle: [
+    'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80'
+  ],
   cookware: [
     'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=80'
   ],
-  bottle: [
-    'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80'
-  ],
 
-  // Beauty & Skincare
+  // Skincare, Cosmetics & Hygiene
   serum: [
     'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1608248597359-e93297a73187?auto=format&fit=crop&w=800&q=80'
@@ -87,13 +110,13 @@ const PRODUCT_IMAGE_COLLECTION = {
     'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80'
   ],
 
-  // Fitness
+  // Fitness & Gym Equipment
   fitness: [
     'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80'
   ],
 
-  // Stationery
+  // Books & Stationery
   stationery: [
     'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?auto=format&fit=crop&w=800&q=80'
@@ -112,78 +135,135 @@ const CATEGORY_DEFAULT_IMAGES = {
 };
 
 export function getProductImage(productName = '', category = '') {
-  const query = `${productName} ${category}`.toLowerCase();
+  const nameLower = (productName || '').toLowerCase();
+  const categoryLower = (category || '').toLowerCase();
 
-  // Keyword check
-  if (query.includes('headphone') || query.includes('earphone') || query.includes('earbud') || query.includes('audio')) {
+  // 1. Sexual Health, Condoms, Contraceptives, Intimate Wellness
+  if (
+    nameLower.includes('condom') || 
+    nameLower.includes('contraceptive') || 
+    nameLower.includes('latex') || 
+    nameLower.includes('durex') || 
+    nameLower.includes('skyn') || 
+    nameLower.includes('manforce') || 
+    nameLower.includes('lubricant') || 
+    nameLower.includes('lube') || 
+    nameLower.includes('intimate') || 
+    nameLower.includes('wellness')
+  ) {
+    return PRODUCT_IMAGE_COLLECTION.wellness[0];
+  }
+
+  // 2. Pharmacy, Medicine, Supplements, Vitamins
+  if (
+    nameLower.includes('pill') || 
+    nameLower.includes('tablet') || 
+    nameLower.includes('capsule') || 
+    nameLower.includes('vitamin') || 
+    nameLower.includes('supplement') || 
+    nameLower.includes('protein powder') || 
+    nameLower.includes('whey') || 
+    nameLower.includes('creatine')
+  ) {
+    return PRODUCT_IMAGE_COLLECTION.supplements[0];
+  }
+
+  // 3. Audio & Acoustics
+  if (nameLower.includes('headphone') || nameLower.includes('earphone') || nameLower.includes('earbud') || nameLower.includes('audio') || nameLower.includes('airpods')) {
     return PRODUCT_IMAGE_COLLECTION.headphones[0];
   }
-  if (query.includes('watch') || query.includes('smartwatch') || query.includes('band')) {
+
+  // 4. Watches & Wearables
+  if (nameLower.includes('watch') || nameLower.includes('smartwatch') || nameLower.includes('band')) {
     return PRODUCT_IMAGE_COLLECTION.watch[0];
   }
-  if (query.includes('keyboard') || query.includes('mouse') || query.includes('keycap')) {
+
+  // 5. Jewelry & Accessories
+  if (nameLower.includes('ring') || nameLower.includes('necklace') || nameLower.includes('bracelet') || nameLower.includes('jewelry') || nameLower.includes('gold') || nameLower.includes('silver')) {
+    return PRODUCT_IMAGE_COLLECTION.jewelry[0];
+  }
+
+  // 6. Keyboards & Computing
+  if (nameLower.includes('keyboard') || nameLower.includes('mouse') || nameLower.includes('keycap')) {
     return PRODUCT_IMAGE_COLLECTION.keyboard[0];
   }
-  if (query.includes('phone') || query.includes('mobile') || query.includes('smartphone')) {
+  if (nameLower.includes('phone') || nameLower.includes('mobile') || nameLower.includes('smartphone') || nameLower.includes('iphone')) {
     return PRODUCT_IMAGE_COLLECTION.phone[0];
   }
-  if (query.includes('laptop') || query.includes('macbook') || query.includes('computer')) {
+  if (nameLower.includes('laptop') || nameLower.includes('macbook') || nameLower.includes('computer') || nameLower.includes('pc')) {
     return PRODUCT_IMAGE_COLLECTION.laptop[0];
   }
-  if (query.includes('speaker') || query.includes('soundbar') || query.includes('boombox')) {
+  if (nameLower.includes('speaker') || nameLower.includes('soundbar') || nameLower.includes('boombox')) {
     return PRODUCT_IMAGE_COLLECTION.speaker[0];
   }
-  if (query.includes('camera') || query.includes('lens') || query.includes('dslr')) {
+  if (nameLower.includes('camera') || nameLower.includes('lens') || nameLower.includes('dslr')) {
     return PRODUCT_IMAGE_COLLECTION.camera[0];
   }
-  if (query.includes('shoe') || query.includes('sneaker') || query.includes('boot') || query.includes('footwear') || query.includes('runner')) {
+
+  // 7. Shoes & Footwear
+  if (nameLower.includes('shoe') || nameLower.includes('sneaker') || nameLower.includes('boot') || nameLower.includes('footwear') || nameLower.includes('runner') || nameLower.includes('sandal')) {
     return PRODUCT_IMAGE_COLLECTION.shoes[0];
   }
-  if (query.includes('bag') || query.includes('backpack') || query.includes('wallet') || query.includes('tote')) {
+
+  // 8. Bags & Luggage
+  if (nameLower.includes('bag') || nameLower.includes('backpack') || nameLower.includes('wallet') || nameLower.includes('tote') || nameLower.includes('luggage')) {
     return PRODUCT_IMAGE_COLLECTION.bag[0];
   }
-  if (query.includes('jacket') || query.includes('hoodie') || query.includes('coat') || query.includes('shirt')) {
+
+  // 9. Apparel & Clothing
+  if (nameLower.includes('jacket') || nameLower.includes('hoodie') || nameLower.includes('coat') || nameLower.includes('shirt') || nameLower.includes('t-shirt') || nameLower.includes('dress') || nameLower.includes('pants')) {
     return PRODUCT_IMAGE_COLLECTION.jacket[0];
   }
-  if (query.includes('sunglass') || query.includes('glasses') || query.includes('eyewear')) {
+  if (nameLower.includes('sunglass') || nameLower.includes('glasses') || nameLower.includes('eyewear') || nameLower.includes('shades')) {
     return PRODUCT_IMAGE_COLLECTION.sunglasses[0];
   }
-  if (query.includes('chair') || query.includes('seating') || query.includes('sofa') || query.includes('stool')) {
+
+  // 10. Furniture
+  if (nameLower.includes('chair') || nameLower.includes('seating') || nameLower.includes('sofa') || nameLower.includes('stool')) {
     return PRODUCT_IMAGE_COLLECTION.chair[0];
   }
-  if (query.includes('desk') || query.includes('table') || query.includes('stand')) {
+  if (nameLower.includes('desk') || nameLower.includes('table') || nameLower.includes('stand')) {
     return PRODUCT_IMAGE_COLLECTION.desk[0];
   }
-  if (query.includes('coffee') || query.includes('espresso') || query.includes('mug') || query.includes('brewer')) {
+
+  // 11. Kitchen & Beverages
+  if (nameLower.includes('coffee') || nameLower.includes('espresso') || nameLower.includes('mug') || nameLower.includes('brewer') || nameLower.includes('tea')) {
     return PRODUCT_IMAGE_COLLECTION.coffee[0];
   }
-  if (query.includes('bottle') || query.includes('flask') || query.includes('tumbler')) {
+  if (nameLower.includes('bottle') || nameLower.includes('flask') || nameLower.includes('tumbler') || nameLower.includes('shaker')) {
     return PRODUCT_IMAGE_COLLECTION.bottle[0];
   }
-  if (query.includes('cook') || query.includes('pan') || query.includes('knife') || query.includes('kitchen') || query.includes('pot')) {
+  if (nameLower.includes('cook') || nameLower.includes('pan') || nameLower.includes('knife') || nameLower.includes('pot') || nameLower.includes('blender')) {
     return PRODUCT_IMAGE_COLLECTION.cookware[0];
   }
-  if (query.includes('serum') || query.includes('peptide') || query.includes('oil') || query.includes('dropper')) {
+
+  // 12. Skincare & Perfume
+  if (nameLower.includes('serum') || nameLower.includes('peptide') || nameLower.includes('oil') || nameLower.includes('dropper')) {
     return PRODUCT_IMAGE_COLLECTION.serum[0];
   }
-  if (query.includes('perfume') || query.includes('cologne') || query.includes('fragrance')) {
+  if (nameLower.includes('perfume') || nameLower.includes('cologne') || nameLower.includes('fragrance') || nameLower.includes('scent')) {
     return PRODUCT_IMAGE_COLLECTION.perfume[0];
   }
-  if (query.includes('cream') || query.includes('lotion') || query.includes('moisturizer') || query.includes('skin')) {
+  if (nameLower.includes('cream') || nameLower.includes('lotion') || nameLower.includes('moisturizer') || nameLower.includes('cleanser') || nameLower.includes('facewash')) {
     return PRODUCT_IMAGE_COLLECTION.cream[0];
   }
-  if (query.includes('fitness') || query.includes('yoga') || query.includes('dumbbell') || query.includes('gym')) {
+
+  // 13. Fitness Equipment (Gym only if fitness equipment is explicitly mentioned!)
+  if (nameLower.includes('dumbbell') || nameLower.includes('barbell') || nameLower.includes('treadmill') || nameLower.includes('gym equipment') || nameLower.includes('kettlebell')) {
     return PRODUCT_IMAGE_COLLECTION.fitness[0];
   }
-  if (query.includes('book') || query.includes('notebook') || query.includes('pen') || query.includes('journal') || query.includes('planner')) {
+
+  // 14. Stationery
+  if (nameLower.includes('book') || nameLower.includes('notebook') || nameLower.includes('pen') || nameLower.includes('journal') || nameLower.includes('planner')) {
     return PRODUCT_IMAGE_COLLECTION.stationery[0];
   }
 
-  // Category fallback
+  // Fallback to Category
   return CATEGORY_DEFAULT_IMAGES[category] || CATEGORY_DEFAULT_IMAGES['Electronics'];
 }
 
 export function getAlternativeImages(productName = '', category = '') {
+  const current = getProductImage(productName, category);
   const allImages = Object.values(PRODUCT_IMAGE_COLLECTION).flat();
-  return allImages;
+  return [current, ...allImages.filter(img => img !== current)];
 }

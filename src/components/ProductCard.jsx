@@ -22,6 +22,8 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
   const [copiedType, setCopiedType] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isEditingUrl, setIsEditingUrl] = useState(false);
+  const [customImageUrl, setCustomImageUrl] = useState('');
 
   if (!cardData) return null;
 
@@ -39,10 +41,18 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
   } = cardData;
 
   const allAlternatives = [imageUrl, ...getAlternativeImages(title, category).filter(img => img !== imageUrl)];
-  const displayImage = allAlternatives[currentImageIndex % allAlternatives.length] || defaultImg;
+  const displayImage = customImageUrl || allAlternatives[currentImageIndex % allAlternatives.length] || defaultImg;
 
   const handleNextImage = () => {
+    setCustomImageUrl('');
     setCurrentImageIndex((prev) => (prev + 1) % allAlternatives.length);
+  };
+
+  const handleSetCustomUrl = (e) => {
+    e.preventDefault();
+    if (customImageUrl.trim()) {
+      setIsEditingUrl(false);
+    }
   };
 
   const handleCopy = (text, type) => {
@@ -124,7 +134,16 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
                 title="Change or cycle product photo"
               >
                 <RotateCw className="w-3 h-3 text-indigo-400" />
-                <span>Change Photo</span>
+                <span>Shuffle Photo</span>
+              </button>
+
+              <button
+                onClick={() => setIsEditingUrl(!isEditingUrl)}
+                className="px-2 py-1 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/60 flex items-center gap-1 text-[11px] font-medium text-slate-300 hover:text-white transition-colors shadow-md"
+                title="Paste a custom image link"
+              >
+                <ImageIcon className="w-3 h-3 text-indigo-400" />
+                <span>URL</span>
               </button>
 
               <button
@@ -136,6 +155,27 @@ export default function ProductCard({ cardData, source, onSaveToHistory }) {
               </button>
             </div>
           </div>
+
+          {/* Optional Custom Image URL Bar */}
+          {isEditingUrl && (
+            <div className="absolute inset-x-3 bottom-12 p-2 rounded-xl bg-slate-900/95 backdrop-blur-md border border-slate-700 z-10 animate-in fade-in">
+              <form onSubmit={handleSetCustomUrl} className="flex gap-2">
+                <input
+                  type="url"
+                  value={customImageUrl}
+                  onChange={(e) => setCustomImageUrl(e.target.value)}
+                  placeholder="Paste direct image URL (https://...)"
+                  className="flex-1 px-3 py-1.5 rounded-lg bg-slate-800 text-white text-xs border border-slate-700 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                />
+                <button
+                  type="submit"
+                  className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold"
+                >
+                  Apply
+                </button>
+              </form>
+            </div>
+          )}
 
           {/* Category Tag overlay */}
           <div className="absolute bottom-3 left-4">
