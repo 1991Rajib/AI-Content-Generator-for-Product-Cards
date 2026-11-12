@@ -29,7 +29,11 @@ export async function generateProductDetails({ productName, category, tone, feat
   const apiKey = customApiKey || import.meta.env.VITE_GEMINI_API_KEY;
 
   if (apiKey && apiKey.trim() !== '') {
-    const candidateModels = ['gemini-flash-lite-latest', 'gemini-3.5-flash', 'gemini-flash-latest'];
+    const candidateModels = [
+      'gemini-3.5-flash-lite',
+      'gemini-3.1-flash-lite',
+      'gemini-flash-lite-latest'
+    ];
     
     for (const model of candidateModels) {
       try {
@@ -54,12 +58,13 @@ Return ONLY a raw JSON object with this exact structure:
         const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
         const response = await fetch(geminiUrl, {
           method: 'POST',
+          signal: AbortSignal.timeout(4500),
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{ role: 'user', parts: [{ text: prompt }] }],
             generationConfig: {
               temperature: 0.7,
-              maxOutputTokens: 1000,
+              maxOutputTokens: 600,
               responseMimeType: 'application/json'
             }
           })

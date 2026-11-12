@@ -66,6 +66,7 @@ export default function App() {
 
       const newCard = {
         id: `card-${Date.now()}`,
+        productName: productName.trim(),
         ...result.data,
         timestamp: Date.now()
       };

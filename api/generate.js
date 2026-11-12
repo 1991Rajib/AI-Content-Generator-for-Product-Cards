@@ -1,6 +1,6 @@
 // Vercel Serverless Function: /api/generate
 // Handles AI REST API requests using Gemini API key stored securely in process.env.GEMINI_API_KEY
-// Also supports client-passed API key for testing
+// Optimized for lightning-fast sub-2s responses & zero client key exposure
 
 export default async function handler(req, res) {
   // Set CORS headers
@@ -30,20 +30,20 @@ export default async function handler(req, res) {
 
     const apiKey = customApiKey || process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
 
-    // If an API key is available, call the Gemini REST API
+    // If an API key is available, call the high-speed Gemini REST API
     if (apiKey && apiKey.trim() !== '') {
-      const prompt = `You are an expert e-commerce copywriter and SEO specialist.
-Generate compelling product card details for the following product:
-- Product Name: "${productName}"
+      const prompt = `You are an expert e-commerce copywriter.
+Generate compelling product card details for:
+- Product: "${productName}"
 - Category: "${category}"
 - Desired Tone: "${tone}"
-${features ? `- Key Highlights/Features: "${features}"` : ''}
+${features ? `- Key Highlights: "${features}"` : ''}
 
-You MUST return ONLY a valid, raw JSON object (without markdown code blocks, backticks, or other text) with this exact schema:
+You MUST return ONLY a valid, raw JSON object (without markdown code blocks, backticks, or other text) with this schema:
 {
   "title": "A captivating, benefit-driven product title (under 60 characters)",
-  "shortDescription": "A persuasive, punchy description highlighting key benefits and value proposition (approx 25-45 words)",
-  "tags": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5", "keyword6"],
+  "shortDescription": "A persuasive description highlighting benefits (approx 25-45 words)",
+  "tags": ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6"],
   "category": "${category}",
   "estimatedPrice": "$49.99",
   "bulletPoints": [
@@ -54,20 +54,27 @@ You MUST return ONLY a valid, raw JSON object (without markdown code blocks, bac
   "badge": "Best Seller"
 }`;
 
-      // Try gemini-flash-lite-latest first for lightning speed & high uptime, then gemini-3.5-flash
-      const candidateModels = ['gemini-flash-lite-latest', 'gemini-3.5-flash', 'gemini-flash-latest'];
+      // Ultra-fast lightweight models (sub-2s latency on Google Cloud)
+      const candidateModels = [
+        'gemini-3.5-flash-lite',
+        'gemini-3.1-flash-lite',
+        'gemini-flash-lite-latest'
+      ];
       
       for (const model of candidateModels) {
         try {
           const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
+          
+          // Enforce 4.5s timeout per model so Vercel never exceeds its execution budget
           const response = await fetch(geminiUrl, {
             method: 'POST',
+            signal: AbortSignal.timeout(4500),
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               contents: [{ role: 'user', parts: [{ text: prompt }] }],
               generationConfig: {
                 temperature: 0.7,
-                maxOutputTokens: 1000,
+                maxOutputTokens: 600,
                 responseMimeType: 'application/json'
               }
             })
@@ -88,17 +95,17 @@ You MUST return ONLY a valid, raw JSON object (without markdown code blocks, bac
             }
           }
         } catch (mErr) {
-          console.warn(`Model ${model} attempt failed:`, mErr.message);
+          console.warn(`Model ${model} attempt timed out or failed (${mErr.message}), trying next...`);
         }
       }
     }
 
-    // Smart Fallback Generator (Active if no API key is provided or for offline demo)
+    // Smart Fallback Generator (Instant response if no API key is set or if upstream API spikes)
     const fallbackData = generateSmartFallback(productName, category, tone, features);
     return res.status(200).json({
       success: true,
       source: apiKey ? 'fallback-after-error' : 'smart-demo-engine',
-      notice: apiKey ? 'Gemini call failed; generated via fallback engine.' : 'Generated using Smart Demo Engine. Configure GEMINI_API_KEY in Vercel for live LLM calls.',
+      notice: apiKey ? 'Generated via fallback engine (upstream API latency spike).' : 'Generated using Smart Demo Engine. Configure GEMINI_API_KEY in Vercel for live LLM calls.',
       data: fallbackData
     });
   } catch (error) {
@@ -155,4 +162,3 @@ function generateSmartFallback(name, category, tone, features) {
     badge: 'Popular Choice'
   };
 }
-

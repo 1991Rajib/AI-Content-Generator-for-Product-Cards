@@ -20,7 +20,8 @@ export default function ProductCard({ cardData }) {
   if (!cardData) return null;
 
   const {
-    title,
+    productName = '',
+    title = '',
     shortDescription,
     tags = [],
     category,
@@ -29,15 +30,18 @@ export default function ProductCard({ cardData }) {
     badge = 'Top Rated'
   } = cardData;
 
+  // Prioritize raw product name entered by user, fallback to title
+  const searchQuery = productName || title;
+
   // Search for images matching THIS product
   useEffect(() => {
     let isMounted = true;
-    const initialImg = getImmediateProductImage(title, category);
+    const initialImg = getImmediateProductImage(searchQuery, category);
     setProductImages([initialImg]);
     setCurrentImageIndex(0);
     setCustomImageUrl('');
 
-    fetchImagesForProduct(title, category).then((imgs) => {
+    fetchImagesForProduct(searchQuery, category).then((imgs) => {
       if (isMounted && imgs && imgs.length > 0) {
         setProductImages(imgs);
       }
@@ -46,9 +50,9 @@ export default function ProductCard({ cardData }) {
     return () => {
       isMounted = false;
     };
-  }, [title, category]);
+  }, [searchQuery, category]);
 
-  const activeImage = customImageUrl || productImages[currentImageIndex % productImages.length] || getImmediateProductImage(title, category);
+  const activeImage = customImageUrl || productImages[currentImageIndex % productImages.length] || getImmediateProductImage(searchQuery, category);
 
   const handleCycleImage = () => {
     setCustomImageUrl('');
