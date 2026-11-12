@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Wand2, Layers, RefreshCw, Lightbulb, AlertCircle, RotateCcw } from 'lucide-react';
+import { Sparkles, Wand2, Layers, RefreshCw, AlertCircle, RotateCcw } from 'lucide-react';
 
 const CATEGORIES = [
   'Electronics',
@@ -10,13 +10,6 @@ const CATEGORIES = [
   'Books & Stationery',
   'Sports & Outdoors',
   'Automotive & Gadgets'
-];
-
-const PRESETS = [
-  { name: 'Ultra-Thin Latex Protection Pack', category: 'Health & Fitness', tone: 'persuasive' },
-  { name: 'Aura Wireless ANC Headphones', category: 'Electronics', tone: 'luxury' },
-  { name: 'ErgoRest Bamboo Standing Desk', category: 'Home & Kitchen', tone: 'minimalist' },
-  { name: 'HydraSilk Bio-Peptide Serum', category: 'Beauty & Personal Care', tone: 'persuasive' }
 ];
 
 const TONES = [
@@ -62,13 +55,6 @@ export default function ProductForm({ onGenerate, onReset, isLoading, error }) {
     });
   };
 
-  const handleApplyPreset = (preset) => {
-    setProductName(preset.name);
-    setCategory(preset.category);
-    setTone(preset.tone);
-    setValidationError('');
-  };
-
   return (
     <div className="peach-panel rounded-2xl p-6 sm:p-7 relative overflow-hidden bg-white/95">
       {/* Decorative Fresh Peach ambient glow */}
@@ -97,27 +83,6 @@ export default function ProductForm({ onGenerate, onReset, isLoading, error }) {
             <span>Reset</span>
           </button>
         )}
-      </div>
-
-      {/* Preset Quick Fill Pills */}
-      <div className="mb-6">
-        <div className="flex items-center gap-1.5 text-xs text-[#825F4C] mb-2 font-semibold">
-          <Lightbulb className="w-3.5 h-3.5 text-[#DBB06B]" />
-          <span>Quick Inspiration Presets (Optional):</span>
-        </div>
-        <div className="flex flex-wrap gap-1.5">
-          {PRESETS.map((preset, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => handleApplyPreset(preset)}
-              className="text-xs px-2.5 py-1 rounded-lg bg-[#FFD3AC]/25 hover:bg-[#FFB5AB]/35 border border-[#FFB5AB]/50 text-[#5C3A29] hover:text-[#28160E] transition-all text-left flex items-center gap-1.5 cursor-pointer shadow-2xs"
-            >
-              <span className="font-semibold">{preset.name}</span>
-              <span className="text-[10px] text-[#A3735B] font-mono">({preset.category})</span>
-            </button>
-          ))}
-        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
